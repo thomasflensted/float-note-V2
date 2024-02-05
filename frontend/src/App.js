@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import NavBar from "./components/NavBar";
+import Search from "./components/Search";
+import Notes from "./components/Notes";
+import AddNewNote from "./components/AddNewNote";
 
 function App() {
 
@@ -25,14 +29,16 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <>
+      <NavBar />
       {isLoading && <h1>Your Notes Are Loading...</h1>}
       {error && <h1>{error}</h1>}
-      {notes.map(note =>
-        <li key={note._id}>
-          <h1>{note.heading}</h1>
-        </li>)}
-    </div>
+      <main>
+        <AddNewNote />
+        <Notes notes={notes} />
+        <Search />
+      </main>
+    </>
   );
 }
 
