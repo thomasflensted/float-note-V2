@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: ['https://float-note-backend.vercel.app/'],
+    origin: ['https://float-note-api.vercel.app/'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true
 }));
