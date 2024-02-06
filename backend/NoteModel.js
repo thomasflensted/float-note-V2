@@ -7,6 +7,7 @@ const NoteSchema = new Schema({
     size: { type: Array, required: true },
     position: { type: Array, required: true },
     color: { type: String, required: true },
+    zIndex: { type: Number, required: true }
 })
 
 module.exports = mongoose.model("Note", NoteSchema);

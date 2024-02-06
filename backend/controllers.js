@@ -23,9 +23,9 @@ const getNotes = async (req, res) => {
 
 // create new note
 const postNote = async (req, res) => {
-    const { heading, text, size, position, color } = req.body;
+    const { heading, text, size, position, color, zIndex } = req.body;
     try {
-        const note = await Note.create({ heading, text, size, position, color })
+        const note = await Note.create({ heading, text, size, position, color, zIndex })
         res.status(200).json(note);
     } catch (err) {
         res.json({ error: err.message });

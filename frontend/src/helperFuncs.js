@@ -11,6 +11,7 @@ export const getStyles = (notes, note, search) => {
         border: isSearched ? ".5px solid black" : ".5px solid #ecf0f1",
         boxShadow: isSearched ? "4px 4px 0px 0px black" : "4px 4px 0px 0px #ecf0f1",
         color: isSearched ? "black" : "#ecf0f1",
+        zIndex: isSearched ? note.zIndex : 0,
     };
     const noteTopStyle = {
         borderBottom: isSearched ? ".5px solid black" : ".5px solid #ecf0f1",
@@ -33,4 +34,10 @@ export const getRandomPosition = (width, window) => {
     const X = Math.random() * ((window.innerWidth - width) - 30) + 30;
     const Y = Math.random() * (window.innerHeight - 400) + 200;
     return [X, Y];
+}
+
+export const sendNoteToFrontOrBack = (id, notes, toFront) => {
+    const noteToMove = notes.find(note => note._id === id);
+    const remainingNotes = notes.filter(note => note._id !== id);
+    return toFront ? [...remainingNotes, noteToMove] : [noteToMove, ...remainingNotes]
 }

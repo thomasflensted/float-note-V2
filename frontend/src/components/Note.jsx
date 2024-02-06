@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { HamburgerMenuIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -6,13 +6,14 @@ import { Rnd as NoteDiv } from "react-rnd";
 import NoteDialog from './NoteDialog';
 import NoteDropdown from './NoteDropdown';
 import { notesContext } from './Notes';
+import { draggingContext } from '../App';
 import { getStyles } from '../helperFuncs';
 import { updateNoteDB } from '../api';
 
 const Note = ({ note, search }) => {
 
-    const [draggingDisabled, setDraggingDisabled] = useState(false);
     const { notes, setNotes } = useContext(notesContext);
+    const { draggingDisabled, setDraggingDisabled } = useContext(draggingContext)
 
     const handleResize = (width, id) => {
         const updatedNotes = notes.map(note => note._id === id ? { ...note, size: [width, "auto"] } : note)
@@ -52,9 +53,9 @@ const Note = ({ note, search }) => {
                     <Dialog.Trigger asChild>
                         <Pencil2Icon className='note-icon' onClick={() => setDraggingDisabled(true)} />
                     </Dialog.Trigger>
-                    <NoteDialog newNote={false} note={note} notes={notes} setNotes={setNotes} setDraggingDisabled={setDraggingDisabled} />
+                    <NoteDialog newNote={false} note={note} notes={notes} setNotes={setNotes} />
                 </Dialog.Root>
-            </div >
+            </div>
             <div className="note-text-container">
                 <p className='note-text'>{note.text}</p>
             </div>

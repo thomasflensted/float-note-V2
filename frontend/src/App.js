@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import NavBar from "./components/NavBar";
 import Search from "./components/Search";
 import Notes from "./components/Notes";
@@ -6,13 +6,15 @@ import AddNewNote from "./components/AddNewNote";
 import LoadingScreen from "./components/LoadingScreen";
 import ErrorScreen from "./components/ErrorScreen";
 
+export const draggingContext = createContext();
+
 function App() {
 
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false);
-
+  const [draggingDisabled, setDraggingDisabled] = useState(false);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -38,9 +40,11 @@ function App() {
       {isLoading && <LoadingScreen />}
       {error && <ErrorScreen error={error} />}
       <main>
-        <AddNewNote notes={notes} setNotes={setNotes} />
-        <Notes notes={notes} setNotes={setNotes} search={search} />
-        <Search setSearch={setSearch} />
+        <draggingContext.Provider value={{ draggingDisabled, setDraggingDisabled }}>
+          <AddNewNote notes={notes} setNotes={setNotes} />
+          <Notes notes={notes} setNotes={setNotes} search={search} />
+          <Search setSearch={setSearch} zIndex={notes.length + 1} />
+        </draggingContext.Provider>
       </main>
     </>
   );

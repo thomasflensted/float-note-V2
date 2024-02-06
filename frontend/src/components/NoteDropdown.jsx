@@ -1,11 +1,11 @@
 import React, { forwardRef, useContext } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { notesContext } from './Notes';
-import { createNoteDB, deleteNoteDB, getNotesDB } from '../api';
+import { sendNoteToFrontOrBack } from '../helperFuncs';
+import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB } from '../api';
 
 const NoteDropdown = forwardRef((props, ref) => {
 
-    // props: id
     const { notes, setNotes } = useContext(notesContext);
 
     const handleDelete = () => {
@@ -22,21 +22,65 @@ const NoteDropdown = forwardRef((props, ref) => {
             size: thisNote.size,
             position: [thisNote.position[0] + 20, thisNote.position[1] + 20],
             color: thisNote.color,
+            zIndex: notes.length + 1,
         }
         await createNoteDB(newNote);
         const updatedNotes = await getNotesDB();
         setNotes(updatedNotes);
     }
 
+    const handleReorderNotes = (toFront) => {
+        const reorderedNotes = sendNoteToFrontOrBack(props.id, notes, toFront)
+        for (let i = 0; i < reorderedNotes.length; i++) {
+            reorderedNotes[i].zIndex = i + 1;
+            updateNoteDB(reorderedNotes[i]._id, { zIndex: i + 1 });
+        };
+        setNotes(reorderedNotes);
+    }
+
+    const handleBringForward = () => {
+        const currentZindex = notes.find(note => note._id === props.id).zIndex;
+        if (currentZindex === notes.length) return;
+        var noteBehind = '';
+        const updatedNotes = notes.map(note => {
+            if (note._id === props.id) {
+                return { ...note, zIndex: note.zIndex + 1 };
+            } else if (note.zIndex === currentZindex + 1) {
+                noteBehind = note._id;
+                return { ...note, zIndex: currentZindex };
+            } return note;
+        })
+        setNotes(updatedNotes);
+        updateNoteDB(props.id, { zIndex: currentZindex + 1 })
+        updateNoteDB(noteBehind, { zIndex: currentZindex })
+    }
+
+    const handleSendBackward = () => {
+        const currentZindex = notes.find(note => note._id === props.id).zIndex;
+        if (currentZindex === 1) return;
+        var noteInFront = '';
+        const updatedNotes = notes.map(note => {
+            if (note._id === props.id) {
+                return { ...note, zIndex: note.zIndex - 1 };
+            } else if (note.zIndex === currentZindex - 1) {
+                noteInFront = note._id;
+                return { ...note, zIndex: currentZindex };
+            } return note;
+        })
+        setNotes(updatedNotes);
+        updateNoteDB(props.id, { zIndex: currentZindex - 1 })
+        updateNoteDB(noteInFront, { zIndex: currentZindex })
+    }
+
     return (
         <DropdownMenu.Portal>
-            <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5} >
+            <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5} style={{ zIndex: notes.length + 1 }}>
                 <DropdownMenu.Arrow className="DropdownMenuArrow" />
-                <DropdownMenu.Item className="DropdownMenuItem">Bring Forward</DropdownMenu.Item>
-                <DropdownMenu.Item className="DropdownMenuItem">Bring To Front</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={handleBringForward} className="DropdownMenuItem">Bring Forward</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={() => handleReorderNotes(true)} className="DropdownMenuItem">Bring To Front</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
-                <DropdownMenu.Item className="DropdownMenuItem">Send Backward</DropdownMenu.Item>
-                <DropdownMenu.Item className="DropdownMenuItem">Send To Back</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={handleSendBackward} className="DropdownMenuItem">Send Backward</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={() => handleReorderNotes(false)} className="DropdownMenuItem">Send To Back</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
                 <DropdownMenu.Item onClick={handleDuplicate} className="DropdownMenuItem">Duplicate Note</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
@@ -44,7 +88,7 @@ const NoteDropdown = forwardRef((props, ref) => {
                     className="DropdownMenuItem"
                     onClick={handleDelete}
                     style={{ color: "red" }}>Delete Note</DropdownMenu.Item>
-            </DropdownMenu.Content >
+            </DropdownMenu.Content>
         </DropdownMenu.Portal>
     )
 })

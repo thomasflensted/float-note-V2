@@ -5,9 +5,10 @@ const DialogTextForm = ({ text, setText }) => {
         <form action="" className='text-area-form'>
             <label className='new-note-label' htmlFor="text">Text:</label>
             <textarea
-                defaultValue={text}
+                value={text}
+                autoFocus
                 onChange={(e) => setText(e.target.value)}
-                type='text' id='text' rows={4} autoFocus
+                type='text' id='text' rows={4}
                 style={{ maxWidth: window.innerWidth - 100, maxHeight: "350px" }}
                 className='new-note-input'></textarea>
         </form>
