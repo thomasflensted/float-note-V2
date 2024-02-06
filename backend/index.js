@@ -7,7 +7,11 @@ const mongoose = require('mongoose');
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['https://float-note-backend.vercel.app/'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true
+}));
 app.use('/api/notes', routes);
 
 mongoose.connect(process.env.MONGO_URI)

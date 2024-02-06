@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Note = require('./NoteModel');
 const { getNotes, getNote, postNote, deleteNote, patchNote } = require('./controllers')
 
 // get single note
