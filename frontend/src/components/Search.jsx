@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Search = () => {
+const Search = ({ setSearch }) => {
     return (
         <form action="" onSubmit={e => e.preventDefault()}>
             <label style={{ display: 'none' }} htmlFor="search">Search Notes</label>
@@ -8,6 +8,7 @@ const Search = () => {
                 className='search'
                 id='search'
                 type="search"
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder={"Search..."} />
         </form>
     )
