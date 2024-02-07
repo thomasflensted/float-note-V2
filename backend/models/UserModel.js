@@ -11,7 +11,6 @@ UserSchema.statics.signup = async (username, password) => {
     const exists = await this.findOne({ username });
     if (exists) {
         throw Error("User already exists.");
-
     }
 }
 
