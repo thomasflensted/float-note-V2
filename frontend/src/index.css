@@ -124,6 +124,7 @@ li {
   font-size: .75rem;
   line-height: 1.25rem;
   overflow: hidden;
+  white-space: pre;
 }
 
 .DropdownMenuContent {
