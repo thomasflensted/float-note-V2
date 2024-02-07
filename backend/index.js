@@ -8,7 +8,6 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
-const cors = require("cors");
 const corsOptions = {
     origin: "https://float-note.onrender.com/",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
