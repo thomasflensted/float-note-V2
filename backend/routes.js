@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getNotes, getNote, postNote, deleteNote, patchNote } = require('./controllers')
+const { getNotes, getNote, postNote, deleteNote, patchNote, patchMultiple } = require('./controllers')
 
 // get single note
 router.get('/:id', getNote)
@@ -13,6 +13,9 @@ router.post('/', postNote)
 
 // update existing note
 router.patch('/:id', patchNote)
+
+// update existing note
+router.patch('/', patchMultiple)
 
 // delete note
 router.delete('/:id', deleteNote)

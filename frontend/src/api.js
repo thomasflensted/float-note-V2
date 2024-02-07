@@ -1,7 +1,9 @@
+const baseURL = "https://float-note-api.onrender.com/api/notes/";
+
 // get notes
 export const getNotesDB = async () => {
     try {
-        const response = await fetch('http://localhost:4000/api/notes/');
+        const response = await fetch(baseURL);
         if (!response) throw Error("There was an error updating the data.");
         const json = await response.json();
         return json;
@@ -13,7 +15,7 @@ export const getNotesDB = async () => {
 // update existing note
 export const updateNoteDB = async (id, updatedProps) => {
     try {
-        const response = await fetch(`http://localhost:4000/api/notes/${id}`, {
+        const response = await fetch(`${baseURL}${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedProps)
@@ -24,10 +26,23 @@ export const updateNoteDB = async (id, updatedProps) => {
     }
 }
 
+export const updateZindecesDB = async (startValue) => {
+    try {
+        const response = await fetch(baseURL, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ startValue: startValue })
+        })
+        if (!response) throw Error("There was an error updating the data.");
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 // create new note / duplicate existing
 export const createNoteDB = async (note) => {
     try {
-        const response = await fetch(`http://localhost:4000/api/notes/`, {
+        const response = await fetch(baseURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(note)
@@ -41,7 +56,7 @@ export const createNoteDB = async (note) => {
 // delete note
 export const deleteNoteDB = async (id) => {
     try {
-        const response = await fetch(`http://localhost:4000/api/notes/${id}`, { method: 'DELETE' });
+        const response = await fetch(`${baseURL}${id}`, { method: 'DELETE' });
         if (!response) throw Error("There was an error deleting the data.");
     } catch (err) {
         console.log(err.message);

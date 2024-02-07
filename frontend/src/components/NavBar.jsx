@@ -1,8 +1,8 @@
 import React from 'react'
-const NavBar = () => {
+const NavBar = ({ zIndex }) => {
     return (
-        <nav >
-            <ul className='navbar'>
+        <nav>
+            <ul className='navbar' style={{ zIndex: zIndex }}>
                 <li className='nav-item'>
                     <h1 className='title'>Float Note</h1>
                 </li>
@@ -10,7 +10,7 @@ const NavBar = () => {
                     Log In
                 </li>
             </ul>
-        </nav>
+        </nav >
     )
 }
 

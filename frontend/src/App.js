@@ -20,7 +20,7 @@ function App() {
     const fetchNotes = async () => {
       const timer = setTimeout(() => setIsLoading(true), 1000);
       try {
-        const res = await fetch('http://localhost:4000/api/notes');
+        const res = await fetch('https://float-note-api.onrender.com/api/notes');
         if (!res.ok) throw Error("There was an error retrieving your notes.")
         const json = await res.json();
         setNotes(json);
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar zIndex={notes.length + 1} />
       {isLoading && <LoadingScreen />}
       {error && <ErrorScreen error={error} />}
       <main>
