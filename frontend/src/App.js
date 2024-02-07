@@ -25,7 +25,7 @@ function App() {
         const json = await res.json();
         setNotes(json);
       } catch (err) {
-        setError(err.message);
+        setError("There was an error retrieving your notes.");
       } finally {
         clearTimeout(timer);
         setIsLoading(false);
