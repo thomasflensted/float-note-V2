@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getNotes, getNote, postNote, deleteNote, patchNote, patchMultiple } = require('./controllers')
+const { getNotes, getNote, postNote, deleteNote, patchNote, patchMultiple } = require('../controllers/controllers')
 
 // get single note
 router.get('/:id', getNote)

@@ -1,7 +1,8 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
-const routes = require('./routes')
+const noteRoutes = require('./routes/noteRoutes')
+const userRoutes = require('./routes/userRoutes')
 const mongoose = require('mongoose');
 const PORT = process.env.PORT;
 
@@ -13,7 +14,8 @@ const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
 app.use(cors(corsOptions));
-app.use('/api/notes', routes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/user', userRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

@@ -16,6 +16,7 @@ const NoteDialog = forwardRef((props, ref) => {
     const [newColor, setNewColor] = useState(props.newNote ? "#FFFFFF" : props.note.color);
 
     const handleAddNewNote = async () => {
+        if (!newText && !newHeading) return;
         setDraggingDisabled(false);
         const width = calculateWidth(newText);
         const randomPosition = getRandomPosition(width, window);
