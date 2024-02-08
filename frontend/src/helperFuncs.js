@@ -36,6 +36,36 @@ export const getRandomPosition = (width, window) => {
     return [X, Y];
 }
 
+const getNoteAndZindex = (id, notes) => {
+    const noteToMove = notes.find(note => note._id === id);
+    const initialZindex = noteToMove.zIndex;
+    return { noteToMove, initialZindex };
+}
+
+export const sendToBack = (id, notes) => {
+    var updatedNotes = notes;
+    const { noteToMove, initialZindex } = getNoteAndZindex(id, notes);
+    for (let i = 0; i < updatedNotes.length; i++) {
+        if (updatedNotes[i].zIndex < initialZindex) {
+            updatedNotes[i].zIndex += 1;
+        }
+    }
+    noteToMove.zIndex = 1;
+    return updatedNotes;
+}
+
+export const bringToFront = (id, notes) => {
+    var updatedNotes = notes;
+    const { noteToMove, initialZindex } = getNoteAndZindex(id, notes);
+    for (let i = 0; i < updatedNotes.length; i++) {
+        if (updatedNotes[i].zIndex > initialZindex) {
+            updatedNotes[i].zIndex -= 1;
+        }
+    }
+    noteToMove.zIndex = updatedNotes.length;
+    return updatedNotes;
+}
+
 export const sendNoteToFrontOrBack = (id, notes, toFront) => {
     const noteToMove = notes.find(note => note._id === id);
     const remainingNotes = notes.filter(note => note._id !== id);

@@ -26,16 +26,15 @@ export const updateNoteDB = async (id, updatedProps) => {
     }
 }
 
-export const updateZindecesDB = async (startValue) => {
+export const updateMultiple = async (initialZvalue) => {
     try {
-        const response = await fetch(baseURL, {
+        const response = await fetch(`${baseURL}/?zvalue=${initialZvalue}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ startValue: startValue })
+            headers: { 'Content-Type': 'application/json' }
         })
-        if (!response) throw Error("There was an error updating the data.");
+        if (!response.ok) throw Error("There was an error");
     } catch (err) {
-        console.log(err.message);
+        throw Error("There was an error.")
     }
 }
 

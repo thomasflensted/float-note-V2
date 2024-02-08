@@ -46,14 +46,13 @@ const patchNote = async (req, res) => {
 }
 
 const patchMultiple = async (req, res) => {
-    const { startValue } = req.body;
+    const { initialZvalue } = req.params;
     try {
-        const result = await Note.updateMany(
-            { zIndex: { $gt: startValue } },
-            { $inc: { zIndex: - 1 } })
+        const result = await Note.updateMany({}, { $set: { 'text': "" } }
+        )
         result
-            ? res.status(200).json(result)
-            : res.status(404).json({ mssg: "something went wrong" })
+            ? res.status(200).json(initialZvalue)
+            : res.status(404).json({ mssg: "couldn't update note" })
     } catch (err) {
         res.json({ error: err.message })
     }

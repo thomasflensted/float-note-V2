@@ -1,8 +1,8 @@
 import React, { forwardRef, useContext } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { notesContext } from './Notes';
-import { sendNoteToFrontOrBack } from '../helperFuncs';
-import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB, updateZindecesDB } from '../api';
+import { sendToBack, bringToFront } from '../helperFuncs';
+import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB } from '../api';
 
 const NoteDropdown = forwardRef((props, ref) => {
 
@@ -14,7 +14,7 @@ const NoteDropdown = forwardRef((props, ref) => {
         console.log(noteZindex);
         setNotes(updatedNotes);
         deleteNoteDB(props.id);
-        updateZindecesDB(noteZindex);
+        //updateZindecesDB(noteZindex);
     }
 
     const handleDuplicate = async () => {
@@ -32,13 +32,17 @@ const NoteDropdown = forwardRef((props, ref) => {
         setNotes(updatedNotes);
     }
 
-    const handleReorderNotes = (toFront) => {
-        const reorderedNotes = sendNoteToFrontOrBack(props.id, notes, toFront)
-        for (let i = 0; i < reorderedNotes.length; i++) {
-            reorderedNotes[i].zIndex = i + 1;
-            updateNoteDB(reorderedNotes[i]._id, { zIndex: i + 1 });
-        };
-        setNotes(reorderedNotes);
+    const handleBringToFront = async () => {
+        const noteToMove = notes.find(note => note._id === props.id);
+        if (noteToMove.zIndex === notes.length) return;
+        const updatedNotes = bringToFront(props.id, notes);
+        setNotes([...updatedNotes]);
+
+    }
+
+    const handleSendToBack = () => {
+        const updatedNotes = sendToBack(props.id, notes);
+        setNotes([...updatedNotes]);
     }
 
     const handleBringForward = () => {
@@ -80,10 +84,10 @@ const NoteDropdown = forwardRef((props, ref) => {
             <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5} style={{ zIndex: notes.length + 1 }}>
                 <DropdownMenu.Arrow className="DropdownMenuArrow" />
                 <DropdownMenu.Item onClick={handleBringForward} className="DropdownMenuItem">Bring Forward</DropdownMenu.Item>
-                <DropdownMenu.Item onClick={() => handleReorderNotes(true)} className="DropdownMenuItem">Bring To Front</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={handleBringToFront} className="DropdownMenuItem">Bring To Front</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
                 <DropdownMenu.Item onClick={handleSendBackward} className="DropdownMenuItem">Send Backward</DropdownMenu.Item>
-                <DropdownMenu.Item onClick={() => handleReorderNotes(false)} className="DropdownMenuItem">Send To Back</DropdownMenu.Item>
+                <DropdownMenu.Item onClick={handleSendToBack} className="DropdownMenuItem">Send To Back</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
                 <DropdownMenu.Item onClick={handleDuplicate} className="DropdownMenuItem">Duplicate Note</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
