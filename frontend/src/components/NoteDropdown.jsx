@@ -2,7 +2,7 @@ import React, { forwardRef, useContext } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { notesContext } from './Notes';
 import { sendToBack, bringToFront } from '../helperFuncs';
-import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB } from '../api';
+import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB, updateMultiple } from '../api';
 
 const NoteDropdown = forwardRef((props, ref) => {
 
@@ -37,7 +37,7 @@ const NoteDropdown = forwardRef((props, ref) => {
         if (noteToMove.zIndex === notes.length) return;
         const updatedNotes = bringToFront(props.id, notes);
         setNotes([...updatedNotes]);
-
+        updateMultiple(noteToMove.zIndex)
     }
 
     const handleSendToBack = () => {

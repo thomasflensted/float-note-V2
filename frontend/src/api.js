@@ -1,3 +1,4 @@
+
 const baseURL = "https://float-note-api.onrender.com/api/notes/";
 
 // get notes
@@ -28,9 +29,10 @@ export const updateNoteDB = async (id, updatedProps) => {
 
 export const updateMultiple = async (initialZvalue) => {
     try {
-        const response = await fetch(`${baseURL}/?zvalue=${initialZvalue}`, {
+        const response = await fetch(baseURL, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ initialZvalue })
         })
         if (!response.ok) throw Error("There was an error");
     } catch (err) {
