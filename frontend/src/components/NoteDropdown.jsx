@@ -8,10 +8,11 @@ const NoteDropdown = forwardRef((props, ref) => {
     // get note notes 
     const { notes, setNotes } = useContext(notesContext);
 
-    // delete note --> update state, then save to DB, TODO: update z-indeces on delete
+    // delete note --> update state (decrement z-index of all notes in front of deleted by one), then save to DB
     const handleDelete = async () => {
-        const updatedNotes = notes.filter(note => note._id !== props.id);
+        var updatedNotes = notes.filter(note => note._id !== props.id);
         const noteZindex = notes.find(note => note._id === props.id).zIndex;
+        updatedNotes = updatedNotes.map(note => note.zIndex > noteZindex ? { ...note, zIndex: note.zIndex - 1 } : note)
         setNotes(updatedNotes);
         deleteNoteDB(props.id);
         await updateManyNotesDB(noteZindex, true)
@@ -102,18 +103,3 @@ const NoteDropdown = forwardRef((props, ref) => {
 })
 
 export default NoteDropdown
-
-/*const currentZindex = notes.find(note => note._id === props.id).zIndex;
-        if (currentZindex === notes.length) return;
-        var noteBehind = '';
-        const updatedNotes = notes.map(note => {
-            if (note._id === props.id) {
-                return { ...note, zIndex: note.zIndex + 1 };
-            } else if (note.zIndex === currentZindex + 1) {
-                noteBehind = note._id;
-                return { ...note, zIndex: currentZindex };
-            } return note;
-        })
-        setNotes(updatedNotes);
-        await updateNoteDB(props.id, { zIndex: currentZindex + 1 })
-        await updateNoteDB(noteBehind._id, { zIndex: currentZindex })*/
