@@ -1,5 +1,4 @@
 import React from 'react'
-import { HamburgerMenuIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { ring } from 'ldrs';
 ring.register()
 

@@ -54,8 +54,8 @@ const Note = ({ note, search }) => {
                 </DropdownMenu.Root >
                 <h2 className='note-title'>{note.heading}</h2>
                 <Dialog.Root>
-                    <Dialog.Trigger asChild>
-                        <Pencil2Icon className='note-icon' onClick={() => setDraggingDisabled(true)} />
+                    <Dialog.Trigger asChild onClick={() => setDraggingDisabled(true)}>
+                        <Pencil2Icon className='note-icon' />
                     </Dialog.Trigger>
                     <NoteDialog newNote={false} note={note} notes={notes} setNotes={setNotes} />
                 </Dialog.Root>
