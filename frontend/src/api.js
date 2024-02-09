@@ -27,6 +27,19 @@ export const updateNoteDB = async (id, updatedProps) => {
     }
 }
 
+export const updateManyNotesDB = async (zValue, forward) => {
+    try {
+        const response = await fetch(baseURL, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ zValue, forward })
+        })
+        if (!response) throw Error("There was an error on the server.")
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 // create new note / duplicate existing
 export const createNoteDB = async (note) => {
     try {
