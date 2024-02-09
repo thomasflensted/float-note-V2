@@ -14,9 +14,6 @@ router.post('/', postNote)
 // update existing note
 router.patch('/:id', patchNote)
 
-// update existing note
-router.patch('/', patchMultiple)
-
 // delete note
 router.delete('/:id', deleteNote)
 
