@@ -10,19 +10,22 @@ export const draggingContext = createContext();
 
 function App() {
 
+  // global states
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false);
   const [draggingDisabled, setDraggingDisabled] = useState(false);
 
+  // fetch data from MongoDB
   useEffect(() => {
     const fetchNotes = async () => {
-      const timer = setTimeout(() => setIsLoading(true), 1000);
+      const timer = setTimeout(() => setIsLoading(true), 500);
       try {
-        const res = await fetch('https://float-note-api.onrender.com/api/notes');
+        const res = await fetch('http://localhost:4000/api/notes/'); // update when deploying
         if (!res.ok) throw Error("There was an error retrieving your notes.")
         const json = await res.json();
+        //await new Promise(resolve => setTimeout(resolve, 5000)); // imitate server lag
         setNotes(json);
       } catch (err) {
         setError("There was an error retrieving your notes.");

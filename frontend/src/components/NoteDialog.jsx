@@ -9,12 +9,16 @@ import { draggingContext } from '../App';
 
 const NoteDialog = forwardRef((props, ref) => {
 
+    // get dragging context in order to disable dragging while note is being edited / created
     const setDraggingDisabled = useContext(draggingContext).setDraggingDisabled;
 
+    // state --> if new note, set to empty string and color white, else set to current note's values
     const [newHeading, setNewHeading] = useState(props.newNote ? "" : props.note.heading);
     const [newText, setNewText] = useState(props.newNote ? "" : props.note.text);
     const [newColor, setNewColor] = useState(props.newNote ? "#FFFFFF" : props.note.color);
 
+    // add new note --> create new note with values from form, then update DB first,
+    // then set state. If state is set first mismatch arises because of lack of Mongo _id
     const handleAddNewNote = async () => {
         if (!newText && !newHeading) return;
         setDraggingDisabled(false);
@@ -36,6 +40,7 @@ const NoteDialog = forwardRef((props, ref) => {
         setNewColor('#FFFFFF')
     }
 
+    // update note --> update state with new properties, then update DB
     const handleEditNote = () => {
         setDraggingDisabled(false);
         const newNoteProps = { heading: newHeading, text: newText, color: newColor }

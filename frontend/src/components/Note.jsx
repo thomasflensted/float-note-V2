@@ -12,21 +12,25 @@ import { updateNoteDB } from '../api';
 
 const Note = ({ note, search }) => {
 
+    // get notes state context and dragging state context
     const { notes, setNotes } = useContext(notesContext);
     const { draggingDisabled, setDraggingDisabled } = useContext(draggingContext)
 
+    // resize note --> update state and then save to DB
     const handleResize = (width, id) => {
         const updatedNotes = notes.map(note => note._id === id ? { ...note, size: [width, "auto"] } : note)
         setNotes(updatedNotes);
         updateNoteDB(id, { size: [width, "auto"] });
     }
 
+    // drag note --> update state and then save to DB
     const handleDrag = (x, y, id) => {
         const updatedNotes = notes.map(note => note._id === id ? { ...note, position: [x, y] } : note)
         setNotes(updatedNotes);
         updateNoteDB(id, { position: [x, y] })
     }
 
+    // compute note style --> depends on whether the note matches the user's search query
     const { noteStyle, noteTopStyle } = getStyles(notes, note, search);
 
     return (
@@ -48,7 +52,7 @@ const Note = ({ note, search }) => {
                     </DropdownMenu.Trigger>
                     <NoteDropdown id={note._id} />
                 </DropdownMenu.Root >
-                <h2 className='note-title'>{note.heading}</h2>
+                <h2 className='note-title'>{`Z-INDEX: ${note.zIndex}`}</h2>
                 <Dialog.Root>
                     <Dialog.Trigger asChild>
                         <Pencil2Icon className='note-icon' onClick={() => setDraggingDisabled(true)} />
@@ -57,7 +61,7 @@ const Note = ({ note, search }) => {
                 </Dialog.Root>
             </div>
             <div className="note-text-container">
-                <p className='note-text'>{note.text}</p>
+                <p className='note-text'>{`${note.text}\n\n\n\n\n`}</p>
             </div>
         </NoteDiv >
     )
