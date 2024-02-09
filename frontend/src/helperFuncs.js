@@ -26,8 +26,10 @@ export const calculateWidth = (text) => {
         return 200;
     } else if (words < 75) {
         return 300;
+    } else if (words < 125) {
+        return 400
     }
-    return 350;
+    return 600;
 }
 
 export const getRandomPosition = (width, window) => {
