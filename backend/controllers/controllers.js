@@ -45,6 +45,21 @@ const patchNote = async (req, res) => {
     }
 }
 
+const patchMany = async (req, res) => {
+    const { zValue, forward } = req.body;
+    var result;
+    try {
+        result = await Note.updateMany(
+            { zIndex: forward ? { $gt: zValue } : { $lt: zValue } },
+            { $inc: forward ? { "zIndex": -1 } : { "zIndex": 1 } })
+    } catch (err) {
+        res.json({ error: err.message })
+    }
+    result
+        ? res.status(200).json(result)
+        : res.status(404).json({ mssg: "something went wrong" })
+}
+
 // delete note by id
 const deleteNote = async (req, res) => {
     const { id } = req.params;
@@ -64,4 +79,5 @@ module.exports = {
     postNote,
     patchNote,
     deleteNote,
+    patchMany,
 }
