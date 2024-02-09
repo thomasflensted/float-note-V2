@@ -52,7 +52,7 @@ const Note = ({ note, search }) => {
                     </DropdownMenu.Trigger>
                     <NoteDropdown id={note._id} />
                 </DropdownMenu.Root >
-                <h2 className='note-title'>{`Z-INDEX: ${note.zIndex}`}</h2>
+                <h2 className='note-title'>{note.heading}</h2>
                 <Dialog.Root>
                     <Dialog.Trigger asChild>
                         <Pencil2Icon className='note-icon' onClick={() => setDraggingDisabled(true)} />
@@ -61,7 +61,7 @@ const Note = ({ note, search }) => {
                 </Dialog.Root>
             </div>
             <div className="note-text-container">
-                <p className='note-text'>{`${note.text}\n\n\n\n\n`}</p>
+                <p className='note-text'>{note.text}</p>
             </div>
         </NoteDiv >
     )
