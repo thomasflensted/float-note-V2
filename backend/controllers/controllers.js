@@ -45,6 +45,7 @@ const patchNote = async (req, res) => {
     }
 }
 
+// update z-indices when deleting or reordering
 const patchMany = async (req, res) => {
     const { zValue, forward } = req.body;
     var result;
