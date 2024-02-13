@@ -6,7 +6,7 @@ import { Rnd as NoteDiv } from "react-rnd";
 import NoteDialog from './NoteDialog';
 import NoteDropdown from './NoteDropdown';
 import { notesContext } from './Notes';
-import { draggingContext } from '../App';
+import { draggingContext } from '../components/Home';
 import { getStyles } from '../helperFuncs';
 import { updateNoteDB } from '../api';
 

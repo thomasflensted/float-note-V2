@@ -229,6 +229,21 @@ li {
   margin-bottom: .5rem;
 }
 
+.title {
+  color: black;
+  list-style-type: none;
+}
+
+.login-signup-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.login-signup-container>h3 {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
 .new-note-label {
   font-size: .8rem;
 }
@@ -356,6 +371,68 @@ textarea[type=text] {
   font-weight: 400;
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.login-note {
+  border: .5px solid black;
+  width: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10%;
+}
+
+.login-note:hover {
+  cursor: default;
+}
+
+.login-label {
+  font-size: .75rem;
+}
+
+.login-input {
+  width: 100%;
+  background: white;
+  outline: none;
+  border: .5px solid black;
+  padding: .5rem;
+  margin-bottom: .5rem;
+  border-radius: 3px;
+}
+
+.login-input:not(.login-btn):focus {
+  outline: .5px solid black;
+}
+
+.login-btn {
+  font-weight: 600;
+}
+
+.login-btn:hover {
+  background: rgb(239, 239, 239);
+}
+
+.switch-login-text {
+  font-size: .75rem;
+  color: black;
+}
+
+.login-error {
+  color: red;
+  font-size: .75rem;
+}
+
+.login-error-container {
+  width: 100%;
+  margin: .75rem 0 0;
+  border: .5px solid red;
+  background: rgb(255, 240, 240);
+  padding: .5rem;
+  border-radius: 3px;
+}
 
 @keyframes slideUpAndFade {
   from {

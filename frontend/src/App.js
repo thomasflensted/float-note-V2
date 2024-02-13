@@ -1,55 +1,31 @@
-import { useEffect, useState, createContext } from "react";
+// imports
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+// pages and components
+import Login from './components/Login'
+import Signup from './components/Signup'
 import NavBar from "./components/NavBar";
-import Search from "./components/Search";
-import Notes from "./components/Notes";
-import AddNewNote from "./components/AddNewNote";
-import LoadingScreen from "./components/LoadingScreen";
-import ErrorScreen from "./components/ErrorScreen";
+import Home from "./components/Home";
 
-export const draggingContext = createContext();
 
+// app
 function App() {
 
-  // global states
-  const [notes, setNotes] = useState([]);
-  const [error, setError] = useState('');
-  const [search, setSearch] = useState('')
-  const [isLoading, setIsLoading] = useState(false);
-  const [draggingDisabled, setDraggingDisabled] = useState(false);
-
-  // fetch data from MongoDB
-  useEffect(() => {
-    const fetchNotes = async () => {
-      const timer = setTimeout(() => setIsLoading(true), 500);
-      try {
-        const res = await fetch('http://localhost:4000/api/notes/'); // update when deploying
-        if (!res.ok) throw Error("There was an error retrieving your notes.")
-        const json = await res.json();
-        //await new Promise(resolve => setTimeout(resolve, 5000)); // imitate server lag
-        setNotes(json);
-      } catch (err) {
-        setError("There was an error retrieving your notes.");
-      } finally {
-        clearTimeout(timer);
-        setIsLoading(false);
-      }
-    }
-    fetchNotes();
-  }, [])
-
   return (
-    <>
-      <NavBar zIndex={notes.length + 1} />
-      {isLoading && <LoadingScreen />}
-      {error && <ErrorScreen error={error} />}
-      <main>
-        <draggingContext.Provider value={{ draggingDisabled, setDraggingDisabled }}>
-          <AddNewNote notes={notes} setNotes={setNotes} />
-          <Notes notes={notes} setNotes={setNotes} search={search} />
-          <Search setSearch={setSearch} zIndex={notes.length + 1} />
-        </draggingContext.Provider>
-      </main>
-    </>
+    <div className='app'>
+      <BrowserRouter>
+        <header>
+          <NavBar zIndex={10} />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -5,7 +5,7 @@ import DialogTextForm from './DialogTextForm';
 import DialogHeadingForm from './DialogHeadingForm';
 import { updateNoteDB, createNoteDB, getNotesDB } from '../api';
 import { calculateWidth, getRandomPosition } from '../helperFuncs';
-import { draggingContext } from '../App';
+import { draggingContext } from '../components/Home';
 
 const NoteDialog = forwardRef((props, ref) => {
 
