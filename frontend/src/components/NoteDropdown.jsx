@@ -2,33 +2,38 @@ import React, { forwardRef, useContext } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { notesContext } from './Notes';
 import { createNoteDB, deleteNoteDB, getNotesDB, updateNoteDB, updateManyNotesDB } from '../api';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const NoteDropdown = forwardRef((props, ref) => {
+
+    const { user } = useAuthContext();
 
     // get note notes 
     const { notes, setNotes } = useContext(notesContext);
 
     // delete note --> update state (decrement z-index of all notes in front of deleted by one), then save to DB
     const handleDelete = async () => {
+        if (!user) return;
         var updatedNotes = notes.filter(note => note._id !== props.id);
         const noteZindex = notes.find(note => note._id === props.id).zIndex;
         updatedNotes = updatedNotes.map(note => note.zIndex > noteZindex ? { ...note, zIndex: note.zIndex - 1 } : note)
         setNotes(updatedNotes);
-        deleteNoteDB(props.id);
-        await updateManyNotesDB(noteZindex, true)
+        deleteNoteDB(props.id, user);
+        await updateManyNotesDB(noteZindex, true, user)
     }
 
     // duplicate note --> create note with updated z-index and position, create it in the databse
     // before updating state, otherwise mismatch between state and DB because of lack of _id in state
     const handleDuplicate = async () => {
+        if (!user) return;
         const thisNote = notes.find(note => note._id === props.id);
         const newNote = {
             ...thisNote,
             position: [thisNote.position[0] + 20, thisNote.position[1] + 20],
             zIndex: notes.length + 1
         };
-        await createNoteDB(newNote);
-        const updatedNotes = await getNotesDB();
+        await createNoteDB(newNote, user);
+        const updatedNotes = await getNotesDB(user);
         setNotes(updatedNotes);
     }
 
@@ -36,6 +41,7 @@ const NoteDropdown = forwardRef((props, ref) => {
     // in z-space, else the one jsut behind it in z-space. Then switch around the two notes' z-indices
     // For speed, update state first, then update DB after in the background
     const handleReorderNotes = (forward) => {
+        if (!user) return;
         const noteOne = notes.find(note => note._id === props.id);
         if ((forward && noteOne.zIndex === notes.length) || (!forward && noteOne.zIndex === 1)) return;
         const noteTwo = notes.find(note => forward ? note.zIndex === noteOne.zIndex + 1 : note.zIndex === noteOne.zIndex - 1);
@@ -45,13 +51,14 @@ const NoteDropdown = forwardRef((props, ref) => {
             return note;
         })
         setNotes([...updatedNotes]);
-        updateNoteDB(noteOne._id, { zIndex: noteTwo.zIndex })
-        updateNoteDB(noteTwo._id, { zIndex: noteOne.zIndex })
+        updateNoteDB(noteOne._id, { zIndex: noteTwo.zIndex }, user)
+        updateNoteDB(noteTwo._id, { zIndex: noteOne.zIndex }, user)
     }
 
     // bring note to front --> set note's z-index to notes.length and decrement z-index of all notes
     // that were in front of this note before it was moved to front by one
     const handleBringToFront = async () => {
+        if (!user) return;
         const thisNote = notes.find(note => note._id === props.id);
         if (thisNote.zIndex === notes.length) return;
         const updatedNotes = notes.map(note => {
@@ -62,11 +69,12 @@ const NoteDropdown = forwardRef((props, ref) => {
             } return note;
         });
         setNotes([...updatedNotes]);
-        await updateManyNotesDB(thisNote.zIndex, true);
-        updateNoteDB(thisNote._id, { zIndex: notes.length });
+        await updateManyNotesDB(thisNote.zIndex, true, user);
+        updateNoteDB(thisNote._id, { zIndex: notes.length }, user);
     }
 
     const handleSendToback = async () => {
+        if (!user) return;
         const thisNote = notes.find(note => note._id === props.id);
         if (thisNote.zIndex === 1) return;
         const updatedNotes = notes.map(note => {
@@ -77,8 +85,8 @@ const NoteDropdown = forwardRef((props, ref) => {
             } return note;
         });
         setNotes([...updatedNotes]);
-        await updateManyNotesDB(thisNote.zIndex, false);
-        updateNoteDB(thisNote._id, { zIndex: 1 });
+        await updateManyNotesDB(thisNote.zIndex, false, user);
+        updateNoteDB(thisNote._id, { zIndex: 1 }, user);
     }
 
     return (

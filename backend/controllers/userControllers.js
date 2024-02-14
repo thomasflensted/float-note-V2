@@ -30,4 +30,27 @@ const signupUser = async (req, res) => {
     }
 }
 
-module.exports = { loginUser, signupUser }
+// get all users
+const getUsers = async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+// delete user
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await User.findOneAndDelete({ _id: id });
+        user
+            ? res.status(200).json({ message: `User with id ${id} was deleted.` })
+            : res.status(400).json({ message: 'Something went wrong' })
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+module.exports = { loginUser, signupUser, getUsers, deleteUser }

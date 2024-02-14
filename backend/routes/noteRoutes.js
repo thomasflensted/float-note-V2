@@ -1,6 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const { getNotes, getNote, postNote, deleteNote, patchNote, patchMany } = require('../controllers/controllers')
+const requireAuth = require('../middleware/requireAuth')
+
+const router = express.Router();
+router.use(requireAuth);
 
 // get single note
 router.get('/:id', getNote)

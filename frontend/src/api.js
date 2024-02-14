@@ -1,10 +1,11 @@
-
 const baseURL = "http://localhost:4000/api/notes/" //"https://float-note-api.onrender.com/api/notes/";
 
 // get notes
-export const getNotesDB = async () => {
+export const getNotesDB = async (user) => {
     try {
-        const response = await fetch(baseURL);
+        const response = await fetch(baseURL, {
+            headers: { 'Authorization': `Bearer ${user.token}` }
+        });
         if (!response) throw Error("There was an error updating the data.");
         const json = await response.json();
         return json;
@@ -14,11 +15,15 @@ export const getNotesDB = async () => {
 }
 
 // update existing note
-export const updateNoteDB = async (id, updatedProps) => {
+export const updateNoteDB = async (id, updatedProps, user) => {
+    if (!user) return;
     try {
         const response = await fetch(`${baseURL}${id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
             body: JSON.stringify(updatedProps)
         })
         if (!response) throw Error("There was an error updating the data.");
@@ -27,11 +32,15 @@ export const updateNoteDB = async (id, updatedProps) => {
     }
 }
 
-export const updateManyNotesDB = async (zValue, forward) => {
+export const updateManyNotesDB = async (zValue, forward, user) => {
+    if (!user) return;
     try {
         const response = await fetch(baseURL, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
             body: JSON.stringify({ zValue, forward })
         })
         if (!response) throw Error("There was an error on the server.")
@@ -41,11 +50,14 @@ export const updateManyNotesDB = async (zValue, forward) => {
 }
 
 // create new note / duplicate existing
-export const createNoteDB = async (note) => {
+export const createNoteDB = async (note, user) => {
     try {
         const response = await fetch(baseURL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            },
             body: JSON.stringify(note)
         });
         if (!response.ok) throw Error("Something went wrong when creating the note.")
@@ -55,9 +67,15 @@ export const createNoteDB = async (note) => {
 }
 
 // delete note
-export const deleteNoteDB = async (id) => {
+export const deleteNoteDB = async (id, user) => {
+    if (!user) return;
     try {
-        const response = await fetch(`${baseURL}${id}`, { method: 'DELETE' });
+        const response = await fetch(`${baseURL}${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        });
         if (!response) throw Error("There was an error deleting the data.");
     } catch (err) {
         console.log(err.message);

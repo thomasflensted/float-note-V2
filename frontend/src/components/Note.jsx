@@ -9,8 +9,11 @@ import { notesContext } from './Notes';
 import { draggingContext } from '../components/Home';
 import { getStyles } from '../helperFuncs';
 import { updateNoteDB } from '../api';
+const { useAuthContext } = require('../hooks/useAuthContext')
 
 const Note = ({ note, search }) => {
+
+    const { user } = useAuthContext();
 
     // get notes state context and dragging state context
     const { notes, setNotes } = useContext(notesContext);
@@ -25,9 +28,10 @@ const Note = ({ note, search }) => {
 
     // drag note --> update state and then save to DB
     const handleDrag = (x, y, id) => {
+        if (!user) return;
         const updatedNotes = notes.map(note => note._id === id ? { ...note, position: [x, y] } : note)
         setNotes(updatedNotes);
-        updateNoteDB(id, { position: [x, y] })
+        updateNoteDB(id, { position: [x, y] }, user)
     }
 
     // compute note style --> depends on whether the note matches the user's search query

@@ -6,8 +6,11 @@ import DialogHeadingForm from './DialogHeadingForm';
 import { updateNoteDB, createNoteDB, getNotesDB } from '../api';
 import { calculateWidth, getRandomPosition } from '../helperFuncs';
 import { draggingContext } from '../components/Home';
+const { useAuthContext } = require('../hooks/useAuthContext')
 
 const NoteDialog = forwardRef((props, ref) => {
+
+    const { user } = useAuthContext();
 
     // get dragging context in order to disable dragging while note is being edited / created
     const setDraggingDisabled = useContext(draggingContext).setDraggingDisabled;
@@ -20,6 +23,7 @@ const NoteDialog = forwardRef((props, ref) => {
     // add new note --> create new note with values from form, then update DB first,
     // then set state. If state is set first mismatch arises because of lack of Mongo _id
     const handleAddNewNote = async () => {
+        if (!user) return;
         if (!newText && !newHeading) return;
         setDraggingDisabled(false);
         const width = calculateWidth(newText);
@@ -32,8 +36,8 @@ const NoteDialog = forwardRef((props, ref) => {
             color: newColor,
             zIndex: props.notes.length + 1,
         };
-        await createNoteDB(newNote);
-        const updatedNotes = await getNotesDB();
+        await createNoteDB(newNote, user);
+        const updatedNotes = await getNotesDB(user);
         props.setNotes(updatedNotes)
         setNewText('')
         setNewHeading('')
@@ -42,12 +46,13 @@ const NoteDialog = forwardRef((props, ref) => {
 
     // update note --> update state with new properties, then update DB
     const handleEditNote = () => {
+        if (!user) return;
         setDraggingDisabled(false);
         const newNoteProps = { heading: newHeading, text: newText, color: newColor }
         const updatedNotes = props.notes.map(note =>
             note._id === props.note._id ? { ...note, ...newNoteProps } : note)
         props.setNotes(updatedNotes);
-        updateNoteDB(props.note._id, newNoteProps);
+        updateNoteDB(props.note._id, newNoteProps, user);
     }
 
     return (

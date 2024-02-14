@@ -13,8 +13,9 @@ const getNote = async (req, res) => {
 
 // get all notes in collection
 const getNotes = async (req, res) => {
+    const user_id = req.user._id;
     try {
-        const notes = await Note.find({})
+        const notes = await Note.find({ user_id })
         res.status(200).json(notes);
     } catch (err) {
         res.json({ error: err.message });
@@ -23,9 +24,10 @@ const getNotes = async (req, res) => {
 
 // create new note
 const postNote = async (req, res) => {
+    const user_id = req.user.id;
     const { heading, text, size, position, color, zIndex } = req.body;
     try {
-        const note = await Note.create({ heading, text, size, position, color, zIndex })
+        const note = await Note.create({ heading, text, size, position, color, zIndex, user_id })
         res.status(200).json(note);
     } catch (err) {
         res.json({ error: err.message });
