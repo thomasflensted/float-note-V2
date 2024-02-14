@@ -2,6 +2,7 @@ const baseURL = "http://localhost:4000/api/notes/" //"https://float-note-api.onr
 
 // get notes
 export const getNotesDB = async (user) => {
+    if (!user) return;
     try {
         const response = await fetch(baseURL, {
             headers: { 'Authorization': `Bearer ${user.token}` }
@@ -51,6 +52,7 @@ export const updateManyNotesDB = async (zValue, forward, user) => {
 
 // create new note / duplicate existing
 export const createNoteDB = async (note, user) => {
+    if (!user) return;
     try {
         const response = await fetch(baseURL, {
             method: 'POST',
@@ -61,6 +63,7 @@ export const createNoteDB = async (note, user) => {
             body: JSON.stringify(note)
         });
         if (!response.ok) throw Error("Something went wrong when creating the note.")
+        return response.json();
     } catch (err) {
         console.log(err.message);
     }

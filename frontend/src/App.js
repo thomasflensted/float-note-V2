@@ -8,16 +8,20 @@ import Signup from './components/Signup'
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 
+// Context and hooks
+import { useNotesContext } from './hooks/useNotesContext';
+
 // app
 function App() {
 
   const { user } = useAuthContext();
+  const { notes } = useNotesContext()
 
   return (
     <div className='app'>
       <BrowserRouter>
         <header>
-          <NavBar zIndex={10} />
+          <NavBar zIndex={notes.length + 1} />
         </header>
         <main>
           <Routes>

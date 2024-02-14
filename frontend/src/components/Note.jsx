@@ -1,37 +1,45 @@
+// React imports
 import React, { useContext } from 'react'
+
+// External components 
 import { HamburgerMenuIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Rnd as NoteDiv } from "react-rnd";
+
+// Components
 import NoteDialog from './NoteDialog';
 import NoteDropdown from './NoteDropdown';
-import { notesContext } from './Notes';
+
+// Context and hooks
 import { draggingContext } from '../components/Home';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useNotesContext } from '../hooks/useNotesContext';
+
+// Functions
 import { getStyles } from '../helperFuncs';
 import { updateNoteDB } from '../api';
-const { useAuthContext } = require('../hooks/useAuthContext')
 
 const Note = ({ note, search }) => {
 
     const { user } = useAuthContext();
-
-    // get notes state context and dragging state context
-    const { notes, setNotes } = useContext(notesContext);
+    const { notes, dispatch } = useNotesContext();
     const { draggingDisabled, setDraggingDisabled } = useContext(draggingContext)
 
     // resize note --> update state and then save to DB
     const handleResize = (width, id) => {
-        const updatedNotes = notes.map(note => note._id === id ? { ...note, size: [width, "auto"] } : note)
-        setNotes(updatedNotes);
-        updateNoteDB(id, { size: [width, "auto"] });
+        if (!user) return;
+        const updatedProps = { size: [width, "auto"] };
+        dispatch({ type: "UPDATE_NOTE", payload: { id, updatedProps } })
+        updateNoteDB(id, updatedProps, user);
     }
 
     // drag note --> update state and then save to DB
     const handleDrag = (x, y, id) => {
         if (!user) return;
-        const updatedNotes = notes.map(note => note._id === id ? { ...note, position: [x, y] } : note)
-        setNotes(updatedNotes);
-        updateNoteDB(id, { position: [x, y] }, user)
+        const updatedProps = { position: [x, y] };
+        dispatch({ type: "UPDATE_NOTE", payload: { id, updatedProps } })
+        updateNoteDB(id, updatedProps, user)
     }
 
     // compute note style --> depends on whether the note matches the user's search query
@@ -61,7 +69,7 @@ const Note = ({ note, search }) => {
                     <Dialog.Trigger asChild onClick={() => setDraggingDisabled(true)}>
                         <Pencil2Icon className='note-icon' />
                     </Dialog.Trigger>
-                    <NoteDialog newNote={false} note={note} notes={notes} setNotes={setNotes} />
+                    <NoteDialog newNote={false} note={note} />
                 </Dialog.Root>
             </div>
             <div className="note-text-container">

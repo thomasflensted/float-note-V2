@@ -1,20 +1,18 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import Note from './Note'
+import { useNotesContext } from '../hooks/useNotesContext';
 
-export const notesContext = createContext();
+const Notes = ({ search }) => {
 
-const Notes = ({ notes, setNotes, search }) => {
+    const { notes } = useNotesContext();
 
     return (
-        <notesContext.Provider value={{ notes, setNotes }}>
-            {notes.map(note =>
-                <Note
-                    key={note._id}
-                    note={note}
-                    search={search}
-                />
-            )}
-        </notesContext.Provider>
+        notes.map(note =>
+            <Note
+                key={note._id}
+                note={note}
+                search={search}
+            />)
     )
 }
 

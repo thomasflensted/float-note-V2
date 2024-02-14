@@ -1,16 +1,25 @@
+// React imports
 import React, { forwardRef, useContext, useState } from 'react'
+
+// Components
 import * as Dialog from '@radix-ui/react-dialog';
 import ColorSelect from './ColorSelect';
 import DialogTextForm from './DialogTextForm';
 import DialogHeadingForm from './DialogHeadingForm';
+
+// Functions
 import { updateNoteDB, createNoteDB, getNotesDB } from '../api';
 import { calculateWidth, getRandomPosition } from '../helperFuncs';
+
+// Contexts and hooks
 import { draggingContext } from '../components/Home';
-const { useAuthContext } = require('../hooks/useAuthContext')
+import { useNotesContext } from '../hooks/useNotesContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const NoteDialog = forwardRef((props, ref) => {
 
     const { user } = useAuthContext();
+    const { notes, dispatch } = useNotesContext();
 
     // get dragging context in order to disable dragging while note is being edited / created
     const setDraggingDisabled = useContext(draggingContext).setDraggingDisabled;
@@ -23,8 +32,7 @@ const NoteDialog = forwardRef((props, ref) => {
     // add new note --> create new note with values from form, then update DB first,
     // then set state. If state is set first mismatch arises because of lack of Mongo _id
     const handleAddNewNote = async () => {
-        if (!user) return;
-        if (!newText && !newHeading) return;
+        if ((!user) || (!newText && !newHeading)) return;
         setDraggingDisabled(false);
         const width = calculateWidth(newText);
         const randomPosition = getRandomPosition(width, window);
@@ -34,11 +42,10 @@ const NoteDialog = forwardRef((props, ref) => {
             size: [width, 'auto'],
             position: randomPosition,
             color: newColor,
-            zIndex: props.notes.length + 1,
+            zIndex: notes.length + 1,
         };
-        await createNoteDB(newNote, user);
-        const updatedNotes = await getNotesDB(user);
-        props.setNotes(updatedNotes)
+        const newNoteCreated = await createNoteDB(newNote, user);
+        dispatch({ type: "ADD_NEW_NOTE", payload: newNoteCreated });
         setNewText('')
         setNewHeading('')
         setNewColor('#FFFFFF')
@@ -48,11 +55,9 @@ const NoteDialog = forwardRef((props, ref) => {
     const handleEditNote = () => {
         if (!user) return;
         setDraggingDisabled(false);
-        const newNoteProps = { heading: newHeading, text: newText, color: newColor }
-        const updatedNotes = props.notes.map(note =>
-            note._id === props.note._id ? { ...note, ...newNoteProps } : note)
-        props.setNotes(updatedNotes);
-        updateNoteDB(props.note._id, newNoteProps, user);
+        const updatedProps = { heading: newHeading, text: newText, color: newColor }
+        dispatch({ type: "UPDATE_NOTE", payload: { id: props.note._id, updatedProps } })
+        updateNoteDB(props.note._id, updatedProps, user);
     }
 
     return (

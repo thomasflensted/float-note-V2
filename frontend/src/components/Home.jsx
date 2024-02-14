@@ -9,19 +9,20 @@ import AddNewNote from "./AddNewNote";
 import LoadingScreen from './LoadingScreen'
 import ErrorScreen from './ErrorScreen'
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useNotesContext } from '../hooks/useNotesContext';
 
 // contexts
 export const draggingContext = createContext();
 
 const Home = () => {
 
-    // global states
-    const [notes, setNotes] = useState([]);
+    //const [notes, setNotes] = useState([]);
     const [error, setError] = useState('');
     const [search, setSearch] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [draggingDisabled, setDraggingDisabled] = useState(false);
     const { user } = useAuthContext();
+    const { dispatch } = useNotesContext()
 
     // fetch data from MongoDB
     useEffect(() => {
@@ -29,14 +30,11 @@ const Home = () => {
             const timer = setTimeout(() => setIsLoading(true), 500);
             try {
                 const res = await fetch('http://localhost:4000/api/notes/', {
-                    headers: {
-                        'Authorization': `Bearer ${user.token}`,
-                    }
-                }); // update when deploying
+                    headers: { 'Authorization': `Bearer ${user.token}` }
+                });
                 if (!res.ok) throw Error("There was an error retrieving your notes.")
                 const json = await res.json();
-                // await new Promise(resolve => setTimeout(resolve, 5000)); // imitate server lag
-                setNotes(json);
+                dispatch({ type: "SET_NOTES", payload: json });
             } catch (err) {
                 setError("There was an error retrieving your notes.");
             } finally {
@@ -45,7 +43,7 @@ const Home = () => {
             }
         }
         if (user) fetchNotes();
-    }, [user])
+    }, [user, dispatch])
 
     return (
         <>
@@ -53,9 +51,9 @@ const Home = () => {
             {error && <ErrorScreen error={error} />}
             {!error && !isLoading &&
                 <draggingContext.Provider value={{ draggingDisabled, setDraggingDisabled }}>
-                    <AddNewNote notes={notes} setNotes={setNotes} />
-                    <Notes notes={notes} setNotes={setNotes} search={search} />
-                    <Search setSearch={setSearch} zIndex={notes.length + 1} />
+                    <AddNewNote />
+                    <Notes search={search} />
+                    <Search setSearch={setSearch} />
                 </draggingContext.Provider>
             }
         </>
