@@ -1,4 +1,4 @@
-// React imports
+// imports
 import React, { forwardRef, useContext, useState } from 'react'
 
 // Components
@@ -8,7 +8,7 @@ import DialogTextForm from './DialogTextForm';
 import DialogHeadingForm from './DialogHeadingForm';
 
 // Functions
-import { updateNoteDB, createNoteDB, getNotesDB } from '../api';
+import { updateNoteDB, createNoteDB } from '../api';
 import { calculateWidth, getRandomPosition } from '../helperFuncs';
 
 // Contexts and hooks
@@ -32,7 +32,7 @@ const NoteDialog = forwardRef((props, ref) => {
     // add new note --> create new note with values from form, then update DB first,
     // then set state. If state is set first mismatch arises because of lack of Mongo _id
     const handleAddNewNote = async () => {
-        if ((!user) || (!newText && !newHeading)) return;
+        if (!newText && !newHeading) return;
         setDraggingDisabled(false);
         const width = calculateWidth(newText);
         const randomPosition = getRandomPosition(width, window);
@@ -53,7 +53,6 @@ const NoteDialog = forwardRef((props, ref) => {
 
     // update note --> update state with new properties, then update DB
     const handleEditNote = () => {
-        if (!user) return;
         setDraggingDisabled(false);
         const updatedProps = { heading: newHeading, text: newText, color: newColor }
         dispatch({ type: "UPDATE_NOTE", payload: { id: props.note._id, updatedProps } })

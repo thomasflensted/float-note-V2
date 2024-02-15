@@ -28,18 +28,16 @@ const Note = ({ note, search }) => {
 
     // resize note --> update state and then save to DB
     const handleResize = (width, id) => {
-        if (!user) return;
         const updatedProps = { size: [width, "auto"] };
         dispatch({ type: "UPDATE_NOTE", payload: { id, updatedProps } })
-        updateNoteDB(id, updatedProps, user);
+        if (user) { updateNoteDB(id, updatedProps, user) }
     }
 
     // drag note --> update state and then save to DB
     const handleDrag = (x, y, id) => {
-        if (!user) return;
         const updatedProps = { position: [x, y] };
         dispatch({ type: "UPDATE_NOTE", payload: { id, updatedProps } })
-        updateNoteDB(id, updatedProps, user)
+        if (user) { updateNoteDB(id, updatedProps, user) }
     }
 
     // compute note style --> depends on whether the note matches the user's search query

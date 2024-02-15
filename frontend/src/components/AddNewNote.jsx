@@ -1,4 +1,7 @@
+// React imports
 import React from 'react'
+
+// Components
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import * as Dialog from '@radix-ui/react-dialog';
 import NoteDialog from './NoteDialog';

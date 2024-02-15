@@ -8,10 +8,10 @@ import Notes from "./Notes";
 import AddNewNote from "./AddNewNote";
 import LoadingScreen from './LoadingScreen'
 import ErrorScreen from './ErrorScreen'
-import { useAuthContext } from '../hooks/useAuthContext';
-import { useNotesContext } from '../hooks/useNotesContext';
 
 // contexts
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useNotesContext } from '../hooks/useNotesContext';
 export const draggingContext = createContext();
 
 const Home = () => {
@@ -22,7 +22,7 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [draggingDisabled, setDraggingDisabled] = useState(false);
     const { user } = useAuthContext();
-    const { dispatch } = useNotesContext()
+    const { dispatch } = useNotesContext();
 
     // fetch data from MongoDB
     useEffect(() => {
@@ -33,8 +33,8 @@ const Home = () => {
                     headers: { 'Authorization': `Bearer ${user.token}` }
                 });
                 if (!res.ok) throw Error("There was an error retrieving your notes.")
-                const json = await res.json();
-                dispatch({ type: "SET_NOTES", payload: json });
+                const notes = await res.json();
+                dispatch({ type: "SET_NOTES", payload: notes });
             } catch (err) {
                 setError("There was an error retrieving your notes.");
             } finally {
@@ -42,7 +42,7 @@ const Home = () => {
                 setIsLoading(false);
             }
         }
-        if (user) fetchNotes();
+        if (user) { fetchNotes() }
     }, [user, dispatch])
 
     return (

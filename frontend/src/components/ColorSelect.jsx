@@ -1,4 +1,7 @@
+// React imports
 import React from 'react'
+
+// Components
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { CrossCircledIcon } from '@radix-ui/react-icons';
 

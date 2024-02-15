@@ -1,6 +1,7 @@
 import React from 'react'
 
 const DialogTextForm = ({ text, setText }) => {
+
     return (
         <form action="" className='text-area-form'>
             <label className='new-note-label' htmlFor="text">Text:</label>

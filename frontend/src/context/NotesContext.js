@@ -12,7 +12,7 @@ export const notesReducer = (state, action) => {
             return { notes: action.payload }
 
         case "DUPLICATE_NOTE":
-        case "ADD_NEW_NOTE": // payload: new note object (make api call first, to get _id)
+        case "ADD_NEW_NOTE": // payload: new note object
             return { notes: [...state.notes, action.payload] };
 
         case "DELETE_NOTE": // payload: id of note to be deleted
@@ -20,7 +20,7 @@ export const notesReducer = (state, action) => {
             updatedNotes = state.notes
                 .filter(note => // filter out the deleted note
                     note._id !== action.payload)
-                .map(note => // decrement z-indices of notes ahead of the deleted note by one
+                .map(note => // decrement z-indices of notes ahead of the deleted note by one (to keep z-indices consecutive, starting from 1)
                     note.zIndex > noteToDeleteZindex ? { ...note, zIndex: note.zIndex - 1 } : note)
             return { notes: updatedNotes };
 
@@ -32,7 +32,7 @@ export const notesReducer = (state, action) => {
             return { notes: updatedNotes }
 
         // check if note is already in front before calling
-        case "BRING_NOTE_FORWARD": // payload: id of note to be moved forward
+        case "BRING_NOTE_FORWARD": // payload: id of note
             thisNote = state.notes.find(note => note._id === action.payload);
             updatedNotes = state.notes.map(note => {
                 if (note._id === thisNote._id) return { ...note, zIndex: note.zIndex + 1 }
@@ -46,7 +46,7 @@ export const notesReducer = (state, action) => {
             thisNote = state.notes.find(note => note._id === action.payload);
             updatedNotes = state.notes.map(note => {
                 if (note._id === thisNote._id) return { ...note, zIndex: note.zIndex - 1 }
-                if (note.zIndex === thisNote.zIndex + 1) return { ...note, zIndex: note.zIndex + 1 }
+                if (note.zIndex === thisNote.zIndex - 1) return { ...note, zIndex: note.zIndex + 1 }
                 return note;
             })
             return { notes: updatedNotes };
@@ -83,7 +83,6 @@ export const NotesContextProvider = ({ children }) => {
         notes: []
     });
 
-    console.log("Notes Context state:", state);
     return (
         <NotesContext.Provider value={{ ...state, dispatch }}>
             {children}
