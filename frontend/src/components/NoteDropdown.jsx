@@ -17,10 +17,10 @@ const NoteDropdown = forwardRef((props, ref) => {
     }
 
     const handleDelete = async () => {
-        const noteZindex = notes.find(note => note._id === props.id).zIndex;
-        dispatch({ type: "DELETE_NOTE", payload: props.id })
-        deleteNoteDB(props.id, user);
-        await updateManyNotesDB(noteZindex, true, user)
+        const { thisNote, thisZindex } = getNoteAndZindexAndReorderValidity(props.id, false);
+        dispatch({ type: "DELETE_NOTE", payload: thisNote._id })
+        deleteNoteDB(thisNote._id, user);
+        await updateManyNotesDB(thisZindex, true, user)
     }
 
     const handleDuplicate = async () => {
@@ -30,7 +30,7 @@ const NoteDropdown = forwardRef((props, ref) => {
         dispatch({ type: "DUPLICATE_NOTE", payload: newNoteCreated });
     }
 
-    const handleSendBackward = async () => {
+    const handleSendBackward = () => {
         const { thisNote, thisZindex, isValid } = getNoteAndZindexAndReorderValidity(props.id, false);
         if (!isValid) return;
         const noteBehind = notes.find(note => note.zIndex === thisZindex - 1);
@@ -39,7 +39,7 @@ const NoteDropdown = forwardRef((props, ref) => {
         updateNoteDB(noteBehind._id, { zIndex: thisZindex }, user);
     }
 
-    const handleBringForward = async () => {
+    const handleBringForward = () => {
         const { thisNote, thisZindex, isValid } = getNoteAndZindexAndReorderValidity(props.id, true);
         if (!isValid) return;
         const noteInFront = notes.find(note => note.zIndex === thisZindex + 1);
