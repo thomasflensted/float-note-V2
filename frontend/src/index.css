@@ -201,7 +201,7 @@ li {
 }
 
 .note-dialog {
-  position: fixed;
+  position: absolute;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -256,6 +256,22 @@ li {
   font-family: "basic-sans", sans-serif;
   font-weight: 300;
   font-style: normal;
+}
+
+.about-text-block {
+  font-family: "basic-sans", sans-serif;
+}
+
+.about-text-block:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.about-dialogue {
+  animation: aboutSlide .25s ease;
+}
+
+.about-dialogue:focus {
+  outline: none;
 }
 
 input[type=text],
@@ -504,5 +520,17 @@ textarea[type=text] {
   to {
     opacity: 1;
     transform: translate(-50%, 0);
+  }
+}
+
+@keyframes aboutSlide {
+  from {
+    transform: translate(-50%, -40%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 100;
   }
 }

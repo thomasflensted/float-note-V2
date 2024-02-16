@@ -1,4 +1,3 @@
-import React from 'react'
 import { ring } from 'ldrs';
 ring.register()
 

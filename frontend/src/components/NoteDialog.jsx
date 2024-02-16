@@ -1,5 +1,6 @@
 // imports
-import React, { forwardRef, useContext, useState } from 'react'
+import { forwardRef, useContext, useState } from 'react'
+import { v4 as uuid } from 'uuid';
 
 // Components
 import * as Dialog from '@radix-ui/react-dialog';
@@ -44,7 +45,7 @@ const NoteDialog = forwardRef((props, ref) => {
             color: newColor,
             zIndex: notes.length + 1,
         };
-        const newNoteCreated = await createNoteDB(newNote, user);
+        const newNoteCreated = user ? await createNoteDB(newNote, user) : { ...newNote, _id: uuid() };
         dispatch({ type: "ADD_NEW_NOTE", payload: newNoteCreated });
         setNewText('')
         setNewHeading('')
@@ -56,7 +57,7 @@ const NoteDialog = forwardRef((props, ref) => {
         setDraggingDisabled(false);
         const updatedProps = { heading: newHeading, text: newText, color: newColor }
         dispatch({ type: "UPDATE_NOTE", payload: { id: props.note._id, updatedProps } })
-        updateNoteDB(props.note._id, updatedProps, user);
+        if (user) updateNoteDB(props.note._id, updatedProps, user);
     }
 
     return (

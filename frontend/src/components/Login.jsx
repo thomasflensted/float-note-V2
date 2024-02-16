@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+// Imports
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
+// Components
 import useLogin from '../hooks/useLogin';
 
 const Login = () => {

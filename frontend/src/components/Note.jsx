@@ -1,5 +1,5 @@
 // React imports
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 // External components 
 import { HamburgerMenuIcon, Pencil2Icon } from '@radix-ui/react-icons'

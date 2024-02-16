@@ -1,6 +1,4 @@
-import React from 'react'
-
-const DialogHeadingForm = ({ text, setHeading }) => {
+export const DialogHeadingForm = ({ text, setHeading }) => {
     return (
         <form action="" onSubmit={(e) => e.preventDefault()}>
             <label className='new-note-label' htmlFor="heading">Heading:</label>

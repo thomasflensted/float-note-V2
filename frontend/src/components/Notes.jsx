@@ -1,5 +1,7 @@
-import React from 'react'
+// components
 import Note from './Note'
+
+// contexts and hooks
 import { useNotesContext } from '../hooks/useNotesContext';
 
 const Notes = ({ search }) => {

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Search = ({ setSearch, zIndex }) => {
     return (
         <form action="" onSubmit={e => e.preventDefault()}>

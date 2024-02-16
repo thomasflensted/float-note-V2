@@ -1,5 +1,4 @@
 // imports
-import React from 'react'
 import { useEffect, useState, createContext } from "react";
 
 // pages and components
@@ -12,22 +11,24 @@ import ErrorScreen from './ErrorScreen'
 // contexts
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNotesContext } from '../hooks/useNotesContext';
+import { newUserNotes } from "./newUserNotes";
 export const draggingContext = createContext();
 
 const Home = () => {
 
-    //const [notes, setNotes] = useState([]);
+    // state and contexts
     const [error, setError] = useState('');
     const [search, setSearch] = useState('')
     const [isLoading, setIsLoading] = useState(false);
     const [draggingDisabled, setDraggingDisabled] = useState(false);
     const { user } = useAuthContext();
-    const { dispatch } = useNotesContext();
+    const { notes, dispatch } = useNotesContext();
 
     // fetch data from MongoDB
     useEffect(() => {
+
         const fetchNotes = async () => {
-            const timer = setTimeout(() => setIsLoading(true), 500);
+            const timer = setTimeout(() => setIsLoading(true), 350);
             try {
                 const res = await fetch('http://localhost:4000/api/notes/', {
                     headers: { 'Authorization': `Bearer ${user.token}` }
@@ -42,14 +43,26 @@ const Home = () => {
                 setIsLoading(false);
             }
         }
-        if (user) { fetchNotes() }
+        const visitedBefore = localStorage.getItem("visitedBefore");
+        if (user) {
+            localStorage.setItem("visitedBefore", 1);
+            fetchNotes()
+        } else if (!user && !visitedBefore) {
+            let localNotes = JSON.parse(localStorage.getItem("notes"));
+            localNotes = !localNotes || localNotes.length === 0 ? newUserNotes : localNotes;
+            dispatch({ type: "SET_NOTES", payload: localNotes });
+        }
     }, [user, dispatch])
+
+    useEffect(() => {
+        if (!user) localStorage.setItem("notes", JSON.stringify(notes));
+    }, [notes, user])
 
     return (
         <>
             {isLoading && <LoadingScreen />}
             {error && <ErrorScreen error={error} />}
-            {!error && !isLoading &&
+            {!isLoading && !error &&
                 <draggingContext.Provider value={{ draggingDisabled, setDraggingDisabled }}>
                     <AddNewNote />
                     <Notes search={search} />

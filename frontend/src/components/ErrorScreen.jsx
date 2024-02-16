@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ErrorScreen = ({ error }) => {
     return (
         <div className='note loading-error' style={{ color: "#c0392b" }}>

@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+// imports
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
+// contexts and hooks
 import useSignup from '../hooks/useSignup';
 
 const Signup = () => {
@@ -15,7 +18,7 @@ const Signup = () => {
 
     return (
         <div className='note login-note'>
-            <div className='note-top loading-note-top'>
+            <div className='note-top loading-note-top' style={{ backgroundColor: "#FAEDCB" }}>
                 <h2 className='note-title'>Sign Up</h2>
             </div>
             <div className="note-text-container">
