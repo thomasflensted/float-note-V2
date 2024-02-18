@@ -30,7 +30,7 @@ const Home = () => {
         const fetchNotes = async () => {
             const timer = setTimeout(() => setIsLoading(true), 350);
             try {
-                const res = await fetch('http://localhost:4000/api/notes/', {
+                const res = await fetch('https://float-note-api.onrender.com/api/notes', {
                     headers: { 'Authorization': `Bearer ${user.token}` }
                 });
                 if (!res.ok) throw Error("There was an error retrieving your notes.")
