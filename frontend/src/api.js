@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:4000/api/notes/" //"https://float-note-api.onrender.com/api/notes/";
+const baseURL = "https://float-note-api.onrender.com/api/notes/";
 
 // get notes
 export const getNotesDB = async (user) => {

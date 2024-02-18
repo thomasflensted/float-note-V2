@@ -13,8 +13,8 @@ const getNote = async (req, res) => {
 
 // get all notes in collection
 const getNotes = async (req, res) => {
-    const user_id = req.user._id;
     try {
+        const user_id = req.user._id;
         const notes = await Note.find({ user_id })
         res.status(200).json(notes);
     } catch (err) {
@@ -82,5 +82,5 @@ module.exports = {
     postNote,
     patchNote,
     deleteNote,
-    patchMany,
+    patchMany
 }

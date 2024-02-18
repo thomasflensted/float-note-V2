@@ -35,6 +35,11 @@ const NavBar = ({ zIndex }) => {
                         </Dialog.Trigger>
                         <AboutDialog />
                     </Dialog.Root>
+                    <li className='nav-item'>
+                        <Link to="/" style={{ textDecoration: "none", color: 'black', marginRight: '1rem' }}>
+                            Account
+                        </Link>
+                    </li>
                     {user && <li className='nav-item' onClick={handleLogout}>Log Out</li>}
                     {!user &&
                         <li className='nav-item'>

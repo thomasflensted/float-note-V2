@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 const corsOptions = {
-    origin: "http://localhost:3000", //"https://float-note.onrender.com" SET TO THIS URL WHEN DEPLOYING
+    origin: "https://float-note.onrender.com"
 };
 app.use(cors(corsOptions));
 app.use('/api/notes', noteRoutes);
