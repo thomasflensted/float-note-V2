@@ -30,16 +30,6 @@ const signupUser = async (req, res) => {
     }
 }
 
-// get all users
-const getUsers = async (req, res) => {
-    try {
-        const users = await User.find({});
-        res.status(200).json(users);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-}
-
 // delete user
 const deleteUser = async (req, res) => {
     const { id } = req.params;
