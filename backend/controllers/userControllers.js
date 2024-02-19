@@ -43,4 +43,8 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getUsers = (req, res) => {
+    res.json("This is the get route.")
+}
+
 module.exports = { loginUser, signupUser, getUsers, deleteUser }
