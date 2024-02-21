@@ -24,6 +24,6 @@ router.patch('/', patchMany)
 // delete note
 router.delete('/:id', deleteNote)
 
-router.delete('/user/:user_id', deleteMany)
+router.delete('/', deleteMany)
 
 module.exports = router; 

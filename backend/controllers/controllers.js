@@ -77,7 +77,7 @@ const deleteNote = async (req, res) => {
 }
 
 const deleteManyNotes = async (req, res) => {
-    const { user_id } = req.params;
+    const { user_id } = req.body;
     try {
         const result = await Note.deleteMany({ user_id: user_id });
         res.status(200).json({ result: `Deleted ${result.deletedCount} notes` });
@@ -85,8 +85,6 @@ const deleteManyNotes = async (req, res) => {
         res.json({ error: err.message })
     }
 }
-
-
 
 module.exports = {
     getNote,

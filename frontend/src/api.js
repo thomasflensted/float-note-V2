@@ -88,11 +88,12 @@ export const deleteNoteDB = async (id, user) => {
 export const deleteNotesDB = async (user) => {
     if (!user) return;
     try {
-        const response = await fetch(`${NOTES_URL}/user/${user.user_id}`, {
+        const response = await fetch(`${NOTES_URL}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
-            }
+            },
+            body: JSON.stringify({ user_id: user._id })
         });
         if (!response) throw Error("There was an error deleting the data.");
     } catch (err) {
