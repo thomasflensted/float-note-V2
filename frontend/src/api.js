@@ -1,10 +1,10 @@
-const baseURL = "https://float-note-api.onrender.com/api/notes/";
+import { NOTES_URL } from "./urls";
 
 // get notes
 export const getNotesDB = async (user) => {
     if (!user) return;
     try {
-        const response = await fetch(baseURL, {
+        const response = await fetch(NOTES_URL, {
             headers: { 'Authorization': `Bearer ${user.token}` }
         });
         if (!response) throw Error("There was an error updating the data.");
@@ -19,7 +19,7 @@ export const getNotesDB = async (user) => {
 export const updateNoteDB = async (id, updatedProps, user) => {
     if (!user) return;
     try {
-        const response = await fetch(`${baseURL}${id}`, {
+        const response = await fetch(`${NOTES_URL}/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const updateNoteDB = async (id, updatedProps, user) => {
 export const updateManyNotesDB = async (zValue, forward, user) => {
     if (!user) return;
     try {
-        const response = await fetch(baseURL, {
+        const response = await fetch(NOTES_URL, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const updateManyNotesDB = async (zValue, forward, user) => {
 export const createNoteDB = async (note, user) => {
     if (!user) return;
     try {
-        const response = await fetch(baseURL, {
+        const response = await fetch(NOTES_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export const createNoteDB = async (note, user) => {
 export const deleteNoteDB = async (id, user) => {
     if (!user) return;
     try {
-        const response = await fetch(`${baseURL}${id}`, {
+        const response = await fetch(`${NOTES_URL}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`

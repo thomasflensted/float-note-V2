@@ -5,12 +5,13 @@ const noteRoutes = require('./routes/noteRoutes')
 const userRoutes = require('./routes/userRoutes')
 const mongoose = require('mongoose');
 const PORT = process.env.PORT;
+const { CORS_URL } = require('./corsURL');
 
 const app = express();
 
 app.use(express.json());
 const corsOptions = {
-    origin: "https://float-note.onrender.com"
+    origin: CORS_URL
 };
 app.use(cors(corsOptions));
 app.use('/api/notes', noteRoutes);

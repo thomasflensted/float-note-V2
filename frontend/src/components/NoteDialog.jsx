@@ -47,9 +47,7 @@ const NoteDialog = forwardRef((props, ref) => {
         };
         const newNoteCreated = user ? await createNoteDB(newNote, user) : { ...newNote, _id: uuid() };
         dispatch({ type: "ADD_NEW_NOTE", payload: newNoteCreated });
-        setNewText('')
-        setNewHeading('')
-        setNewColor('#FFFFFF')
+        reset();
     }
 
     // update note --> update state with new properties, then update DB
@@ -60,19 +58,36 @@ const NoteDialog = forwardRef((props, ref) => {
         if (user) updateNoteDB(props.note._id, updatedProps, user);
     }
 
+    const handleClose = () => {
+        setDraggingDisabled(false)
+        reset();
+    }
+
+    const reset = () => {
+        setNewText('')
+        setNewHeading('')
+        setNewColor('#FFFFFF')
+    }
+
     return (
         <Dialog.Portal>
-            <Dialog.Overlay className='overlay' />
-            <Dialog.Content className='note-dialog' onInteractOutside={() => setDraggingDisabled(false)}>
-                <h2 className='new-note-title'>{props.newNote ? 'New Note' : 'Edit Note'}</h2>
-                <DialogHeadingForm text={newHeading} setHeading={setNewHeading} />
-                <DialogTextForm text={newText} setText={setNewText} />
-                <ColorSelect color={newColor} setColor={setNewColor} />
-                <div className="buttons">
-                    <Dialog.Close onClick={() => setDraggingDisabled(false)} className='btn'>Cancel</Dialog.Close>
-                    <Dialog.Close
-                        className='btn'
-                        onClick={props.newNote ? handleAddNewNote : handleEditNote}>{props.newNote ? 'Add Note' : 'Save'}</Dialog.Close>
+            <Dialog.Overlay className='overlay' style={{ zIndex: notes.length + 2 }} />
+            <Dialog.Content className='note center-note new-note-dialog' onInteractOutside={() => setDraggingDisabled(false)} style={{ zIndex: notes.length + 3 }}>
+                <div className='note-top center-note-top' style={{ backgroundColor: props.newNote ? "#FFFFFF" : props.note.color }} >
+                    <h2 className='note-title'>{props.newNote ? 'New Note' : 'Edit Note'}</h2>
+                </div>
+                <div className="note-text-container">
+                    <form className='vertical-form'>
+                        <DialogHeadingForm text={newHeading} setHeading={setNewHeading} />
+                        <DialogTextForm text={newText} setText={setNewText} />
+                        <ColorSelect color={newColor} setColor={setNewColor} />
+                    </form>
+                    <div className="buttons">
+                        <Dialog.Close onClick={handleClose} className='btn btn-standard'>Cancel</Dialog.Close>
+                        <Dialog.Close
+                            className='btn btn-standard'
+                            onClick={props.newNote ? handleAddNewNote : handleEditNote}>{props.newNote ? 'Add Note' : 'Save'}</Dialog.Close>
+                    </div>
                 </div>
             </Dialog.Content>
         </Dialog.Portal>

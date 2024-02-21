@@ -1,0 +1,2 @@
+export const USER_URL = "https://float-note-api.onrender.com/api/user"; // "http://localhost:4000/api/user";
+export const NOTES_URL = "https://float-note-api.onrender.com/api/notes"; // "http://localhost:4000/api/notes"; 

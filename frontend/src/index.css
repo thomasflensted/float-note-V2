@@ -1,3 +1,10 @@
+/*
+BASIC SANS WEIGHTS: 200, 300, 400, 600, 700
+VENICE BLVD WEIGHTS: 400, 600, 700, 900
+
+*/
+
+/* GENERAL STYLING */
 * {
   margin: 0;
   padding: 0;
@@ -9,102 +16,129 @@
   height: 100vh;
 }
 
-/* FONT WEIGHTS: 400, 600, 700, 900 */
 body {
-  font-family: "venice-blvd", sans-serif;
+  font-family: basic-sans, sans-serif;
   background-color: #F7F7F5;
   width: 100%;
-  overflow-x: hidden;
 }
 
 li {
   list-style-type: none;
 }
 
-.loading-error {
+:root {
+  --border: .5px solid black;
+  --padding: .75rem;
+  --corner-rounding: 5px;
+  --form-corner-rounding: 3px;
+  --yellow: #FAEDCB;
+  --green: #C9E4DE;
+  --blue: #C6DEF1;
+  --red: #FFD2D2;
+  --gray: #ECF0F1;
+
+}
+
+.yellow {
+  background-color: var(--yellow);
+}
+
+.green {
+  background: var(--green);
+}
+
+.blue {
+  background: var(--blue);
+}
+
+.red {
+  background: var(--red);
+}
+
+.gray {
+  background: var(--gray);
+}
+
+/* LOADING SCREEN AND LOADING ERROR */
+.load-error {
   transform: translateX(-50%);
   left: 50%;
   top: 30%;
-  padding: 1.5rem;
+  padding: calc(2*var(--padding));
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: .5rem;
+  color: #c0392b;
+  border: var(--border)
+}
+
+.load-error-heading {
+  font-weight: 600;
+}
+
+.loading-note-content {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-}
-
-.loading h3 {
-  font-weight: 400;
-}
-
-.login-bg {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  padding-top: calc(2 * var(--padding));
+  padding-bottom: calc(2 * var(--padding));
 }
 
-.login-btns {
-  margin-bottom: 10rem;
-  display: flex;
-  flex-direction: column;
+.loading-note-title {
+  font-size: 1rem;
 }
 
-.btn {
-  margin-top: .5rem;
-  background: white;
-  border: 1px solid black;
-  border-radius: 3px;
-  padding: .75rem 3rem;
-}
-
-.warning {
-  background: red;
-  color: white;
-  margin: 0;
-}
-
-.warning:focus {
-  outline: none;
-}
-
-.btn:hover {
-  background: black;
-  color: white;
-}
-
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 50px;
-  padding: 0 1rem;
-  border-bottom: .5px solid black;
   background: white;
   position: relative;
+  padding-left: calc(2*var(--padding));
+  padding-right: calc(2*var(--padding));
+  border-bottom: var(--border);
 }
 
+.nav-title {
+  font-family: venice-blvd, sans-serif;
+}
+
+.nav-item {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  cursor: pointer;
+}
+
+.nav-right-content {
+  display: flex;
+  gap: 1rem;
+}
+
+/* NOTES */
 .note {
   position: absolute;
   background: white;
-  border-radius: 5px;
-  box-shadow: 4px 4px 0px 0px black;
-  cursor: grab;
+  border-radius: var(--corner-rounding);
+  box-shadow: 4px 4px black;
   overflow: hidden;
 }
 
 .note-top {
   display: flex;
   justify-content: space-between;
-  padding: .75rem;
+  padding: var(--padding) calc(var(--padding) * 1.5);
   align-items: center;
 }
 
-/* GUL: #FAEDCB, GRØN: #C9E4DE, BLÅ: #C6DEF1, LYSERØD: #F8D4E7, GRÅ: #ECF0F1, RØD: #FFD2D2 */
-
 .note-title {
-  font-size: .85rem;
+  font-size: 1rem;
   font-weight: 600;
   transform: translateY(10%);
   overflow: hidden;
@@ -113,53 +147,214 @@ li {
   margin: 0 1rem;
 }
 
+.note-icon {
+  flex-shrink: 0;
+}
+
 .note-text-container {
-  padding: 1rem;
+  padding: calc(var(--padding) * 1.5);
   text-align: left;
-  overflow: hidden;
 }
 
 .note-text {
-  font-family: "venice-blvd", sans-serif;
-  font-size: .75rem;
+  font-size: .9rem;
+  font-weight: 200;
   line-height: 1.25rem;
-  overflow: hidden;
   white-space: pre-wrap;
 }
 
+/* CENTERED DIALOG, FOR LOGIN AND SIGNUP AND MORE */
+.center-note {
+  border: var(--border);
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  animation: noteSlideUp .5s;
+}
+
+.center-note-top {
+  display: flex;
+  justify-content: center;
+  border-bottom: var(--border);
+  padding-top: var(--padding);
+  padding-bottom: var(--padding);
+}
+
+/* INPUT FORM, FOR LOGIN AND SIGNUP AND MORE */
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding)
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: .25rem;
+}
+
+.form-redirect-text {
+  font-size: 1rem;
+  color: black;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.form-input {
+  background: white;
+  padding: .5rem;
+  border: var(--border);
+  border-radius: var(--form-corner-rounding);
+}
+
+.block-input {
+  display: block;
+  width: 300px;
+}
+
+.auto-input {
+  width: 100%
+}
+
+.form-input:focus {
+  outline: var(--border);
+}
+
+/* BUTTONS */
+.btn {
+  font-family: basic-sans, sans-serif;
+  font-size: 1rem;
+  outline: none;
+  font-weight: 500;
+  padding: .4rem;
+  border-radius: var(--form-corner-rounding);
+}
+
+.btn-standard {
+  background: white;
+  border: var(--border);
+}
+
+.btn-100 {
+  width: 100%;
+  margin-top: var(--padding);
+}
+
+.btn-standard:hover {
+  background: rgb(243, 243, 243);
+}
+
+.btn-delete {
+  background: rgb(255, 240, 240);
+  color: red;
+  border: .5px solid red;
+}
+
+.btn-delete:hover {
+  background: rgb(252, 235, 235);
+}
+
+
+/* DIALOGUE OVERLAY */
+.overlay {
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  opacity: .5;
+}
+
+
+/* FORM RESPONSES MESSAGES */
+.response {
+  margin-top: var(--padding);
+  padding: var(--padding);
+  border-radius: var(--form-corner-rounding);
+}
+
+.error {
+  color: red;
+  border: .5px solid red;
+  background: rgb(255, 240, 240);
+}
+
+.success {
+  color: green;
+  border: .5px solid green;
+  background: rgb(235, 255, 238);
+
+}
+
+/* ABOUT DIALOG */
+.about-dialog {
+  width: 600px;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.about-title {
+  font-size: 1.15rem;
+}
+
+.about-close {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.about-dialog:focus {
+  outline: none;
+}
+
+.about-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-heading {
+  font-size: 1rem;
+}
+
+.about-top {
+  border-bottom: var(--border);
+}
+
+/* NEW NOTE DIALOG */
+.new-note-dialog {
+  display: inline-block;
+}
+
+.new-note-textarea {
+  min-width: 400px;
+  min-height: 150px;
+}
+
+/* ACCOUNT DIALOG */
+.account-note {
+  width: 350px;
+}
+
+
+/* DROPDOWN MENU - MOSTLY STYLES FROM RADIX UI */
 .DropdownMenuContent {
   min-width: 150px;
   background-color: white;
-  border-radius: 5px;
+  border-radius: var(--corner-rounding);
   padding: 5px;
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
-  animation-name: slideUpAndFade;
-  animation-duration: 400ms;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
+  animation: slideUpAndFade .4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .DropdownMenuItem {
-  font-size: 13px;
-  line-height: 1;
-  border-radius: 3px;
+  font-size: .85rem;
+  border-radius: var(--corner-rounding);
   display: flex;
   align-items: center;
-  height: 25px;
-  padding: 0 5px;
-  position: relative;
-  padding-left: 25px;
+  padding: .3rem;
+  padding-left: 20px;
   user-select: none;
   outline: none;
-}
-
-.dropdown-item {
-  padding-left: 25px;
-  background: none;
-  outline: none;
-  border: none;
-  font-weight: 600;
-  width: 100%;
 }
 
 .DropdownMenuItem:hover {
@@ -176,6 +371,16 @@ li {
   fill: white;
 }
 
+.dropdown-delete-trigger {
+  font-family: basic-sans, sans-serif;
+  background: white;
+  outline: none;
+  border: none;
+  font-size: .85rem;
+  width: 100%;
+}
+
+/* SEARCH BAR */
 .search {
   width: 99%;
   height: 20px;
@@ -184,9 +389,9 @@ li {
   outline: none;
   position: absolute;
   bottom: 0;
-  box-sizing: border-box;
 }
 
+/* PLUS ICON FOR NEW NOTE */
 .plus {
   width: 20px;
   height: 20px;
@@ -200,134 +405,27 @@ li {
   transform: scale(1.2);
 }
 
-.note-dialog {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 5px;
-  border: .5px solid black;
-  box-shadow: 4px 4px 0px 0px black;
-  padding: 1rem;
-  z-index: 100;
-}
-
-.overlay {
-  background: black;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  z-index: 40;
-  opacity: .15;
-}
-
-.new-note-title {
-  font-size: 1rem;
-  margin-bottom: .5rem;
-}
-
-.title {
-  color: black;
-  list-style-type: none;
-}
-
-.login-signup-container {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.login-signup-container>h3 {
-  font-weight: 400;
-  font-size: 1rem;
-}
-
-.new-note-label {
-  font-size: .8rem;
-}
-
-.new-note-input {
-  padding: .25rem .5rem;
-  outline: none;
-  min-width: 100%;
-  margin: .5rem 0;
-  font-family: "basic-sans", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.about-text-block {
-  font-family: "basic-sans", sans-serif;
-}
-
-.about-text-block:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-.about-dialogue {
-  animation: aboutSlide .25s ease;
-}
-
-.about-dialogue:focus {
-  outline: none;
-}
-
+/* FONT STYLING FOR INPUTS */
+input,
 input[type=text],
 textarea[type=text] {
-  font-size: .85rem;
+  font-family: basic-sans, sans-serif;
+  font-weight: 200;
+  font-size: .9rem;
 }
 
-.text-area-form {
-  display: flex;
-  flex-direction: column;
-  font-family: "venice-blvd", sans-serif;
-}
-
+/* PUTS TWO BUTTONS NEXT TO EACH OTHER */
 .buttons {
-  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: .5rem;
-  background: none;
-  border: none;
+  gap: .25rem;
+  margin-top: var(--padding);
 }
 
-.PopoverContent {
-  border-radius: 4px;
-  padding: 20px;
-  background-color: white;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-  animation-duration: 400ms;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.PopoverContent[data-state='open'][data-side='top'] {
-  animation-name: slideDownAndFade;
-}
-
-.PopoverContent[data-state='open'][data-side='right'] {
-  animation-name: slideLeftAndFade;
-}
-
-.PopoverContent[data-state='open'][data-side='bottom'] {
-  animation-name: slideUpAndFade;
-}
-
-.PopoverContent[data-state='open'][data-side='left'] {
-  animation-name: slideRightAndFade;
-}
-
-.PopoverArrow {
-  fill: white;
-}
-
+/* COLOR SELECTOR IN NEW NOTE DIALOG - MOSTLY FROM RADIX UI*/
 .ToggleGroup {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  margin-top: .5rem;
   margin-bottom: .5rem;
 }
 
@@ -352,6 +450,7 @@ textarea[type=text] {
   border: 1px solid black;
 }
 
+/* CROSS INSIDE COLOR SELECTOR */
 .cross {
   transform: translateY(10%);
   color: red;
@@ -359,144 +458,23 @@ textarea[type=text] {
   width: 22px;
 }
 
-
-.loading-note {
-  border: .5px solid black;
-  transform: translateX(-50%);
+/* POP UP ALERT ON DELETE ACCOUNT */
+.alert {
+  background-color: white;
+  border-radius: var(--corner-rounding);
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 30%;
   left: 50%;
-  top: 20%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  border: var(--border);
 }
 
-.loading-note-top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: .5px solid black;
-  background-color: #C9E4DE;
-}
-
-.loading-note-text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
-}
-
-.loading h3 {
-  font-weight: 400;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: .25rem;
-}
-
-.login-note {
-  border: .5px solid black;
-  width: 300px;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 10%;
-  animation: noteSlideUp .5s;
-}
-
-.login-note:hover {
-  cursor: default;
-}
-
-.login-label {
-  font-size: .75rem;
-}
-
-.login-input {
-  width: 100%;
-  background: white;
+.AlertDialogContent:focus {
   outline: none;
-  border: .5px solid black;
-  padding: .5rem;
-  margin-bottom: .5rem;
-  border-radius: 3px;
-}
-
-.login-input:not(.login-btn):focus {
-  outline: .5px solid black;
-}
-
-.login-btn {
-  font-weight: 600;
-}
-
-.login-btn:hover {
-  background: rgb(239, 239, 239);
-}
-
-.switch-login-text {
-  font-size: .75rem;
-  color: black;
-}
-
-.login-error {
-  color: red;
-  font-size: .75rem;
-}
-
-.login-error-container {
-  width: 100%;
-  margin: .75rem 0 0;
-  border: .5px solid red;
-  background: rgb(255, 240, 240);
-  padding: .5rem;
-  border-radius: 3px;
-}
-
-@keyframes slideUpAndFade {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideRightAndFade {
-  from {
-    opacity: 0;
-    transform: translateX(-2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideDownAndFade {
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideLeftAndFade {
-  from {
-    opacity: 0;
-    transform: translateX(2px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 
 @keyframes slideUpAndFade {

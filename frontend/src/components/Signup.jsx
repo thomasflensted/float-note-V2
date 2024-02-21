@@ -9,36 +9,37 @@ const Signup = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordRepeat, setPasswordRepeat] = useState('');
     const { signup, error, isLoading } = useSignup();;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await signup(email, password);
+        await signup(email, password, passwordRepeat);
     }
 
     return (
-        <div className='note login-note'>
-            <div className='note-top loading-note-top' style={{ backgroundColor: "#FAEDCB" }}>
+        <div className='note center-note'>
+            <div className='note-top center-note-top yellow'>
                 <h2 className='note-title'>Sign Up</h2>
             </div>
             <div className="note-text-container">
-                <form className='login-form' action="" onSubmit={(e) => handleSubmit(e)} id='login-form'>
+                <form className='vertical-form' action="" onSubmit={(e) => handleSubmit(e)} id='login-form'>
                     <div>
-                        <label className='login-label' htmlFor="email">Email:</label>
-                        <input onChange={(e) => setEmail(e.target.value)} className='login-input' type="text" id="email" />
+                        <label className='form-label' htmlFor="email">Email:</label>
+                        <input onChange={(e) => setEmail(e.target.value)} className='form-input block-input' type="text" id="email" />
                     </div>
                     <div>
-                        <label className='login-label' htmlFor="pw">Password:</label>
-                        <input onChange={(e) => setPassword(e.target.value)} className='login-input' type="password" name="" id="pw" />
+                        <label className='form-label' htmlFor="pw">Password:</label>
+                        <input onChange={(e) => setPassword(e.target.value)} className='form-input block-input' type="password" name="" id="pw" />
                     </div>
-                    <button style={{ marginTop: ".5rem", marginBottom: "1rem" }} disabled={isLoading} className='login-btn login-input'>Sign Up</button>
+                    <div>
+                        <label className='form-label' htmlFor="pw">Repeat password:</label>
+                        <input onChange={(e) => setPasswordRepeat(e.target.value)} className='form-input block-input' type="password" name="" id="pw" />
+                    </div>
+                    <button disabled={isLoading} className='btn btn-standard'>Sign Up</button>
                 </form>
-                <Link className='switch-login-text' to="/login">Already Have An Account?</Link>
-                {error &&
-                    <div className='login-error-container'>
-                        <p className='login-error'>{error}</p>
-                    </div>
-                }
+                <Link className='form-redirect-text' to="/login">Already Have An Account?</Link>
+                {error && <div className='error response'>{error}</div>}
             </div >
         </div >
     )

@@ -10,6 +10,7 @@ import Home from "./components/Home";
 
 // Context and hooks
 import { useNotesContext } from './hooks/useNotesContext';
+import Account from './components/Account';
 
 // app
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path='/account' element={user ? <Account /> : <Navigate to='/' />} />
             <Route path="/login" element={!user ? <Login /> : <Navigate to='/' />} />
             <Route path="/signup" element={!user ? <Signup /> : <Navigate to='/' />} />
           </Routes>

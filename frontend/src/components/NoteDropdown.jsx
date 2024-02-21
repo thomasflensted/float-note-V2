@@ -5,6 +5,9 @@ import { v4 as uuid } from 'uuid';
 // components and functions
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { createNoteDB, deleteNoteDB, updateNoteDB, updateManyNotesDB } from '../api';
+import * as AlertDialog from '@radix-ui/react-alert-dialog'
+import Alert from './Alert';
+import { noteDeleteText } from './stringConstants';
 
 // contexts and hooks
 import { useAuthContext } from '../hooks/useAuthContext';
@@ -22,7 +25,7 @@ const NoteDropdown = forwardRef((props, ref) => {
         return { thisNote, thisZindex, isValid };
     }
 
-    const handleDelete = async () => {
+    const handleDeleteNote = async () => {
         const { thisNote, thisZindex } = getNoteAndZindexAndReorderValidity(props.id, false);
         dispatch({ type: "DELETE_NOTE", payload: thisNote._id })
         if (user) {
@@ -92,7 +95,10 @@ const NoteDropdown = forwardRef((props, ref) => {
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
                 <DropdownMenu.Item onClick={handleDuplicate} className="DropdownMenuItem">Duplicate Note</DropdownMenu.Item>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
-                <DropdownMenu.Item onClick={handleDelete} className="DropdownMenuItem" style={{ color: "red" }}>Delete Note</DropdownMenu.Item>
+                <AlertDialog.Root>
+                    <Alert text={noteDeleteText} handleDelete={handleDeleteNote} />
+                    <AlertDialog.Trigger className="DropdownMenuItem dropdown-delete-trigger" style={{ color: "red" }}>Delete Note</AlertDialog.Trigger>
+                </AlertDialog.Root>
             </DropdownMenu.Content>
         </DropdownMenu.Portal>
     )

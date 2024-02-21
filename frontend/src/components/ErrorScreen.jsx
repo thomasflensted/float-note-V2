@@ -1,7 +1,7 @@
 const ErrorScreen = ({ error }) => {
     return (
-        <div className='note loading-error' style={{ color: "#c0392b" }}>
-            <h3>{error}</h3>
+        <div className='note load-error'>
+            <h3 className="load-error-heading">{error}</h3>
             <p>Please reload the page or come back later.</p>
         </div >
     )

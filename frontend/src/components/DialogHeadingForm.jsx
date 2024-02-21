@@ -1,13 +1,14 @@
 export const DialogHeadingForm = ({ text, setHeading }) => {
     return (
-        <form action="" onSubmit={(e) => e.preventDefault()}>
-            <label className='new-note-label' htmlFor="heading">Heading:</label>
+        <div>
+            <label className='form-label' htmlFor="heading">Heading:</label>
             <input
-                defaultValue={text}
                 onChange={(e) => setHeading(e.target.value)}
-                className='new-note-input' type="text" id="heading"
-                placeholder='Type heading or leave blank...' />
-        </form>
+                defaultValue={text}
+                placeholder='Type heading or leave blank...'
+                className='form-input auto-input'
+                id="heading" />
+        </div>
     )
 }
 

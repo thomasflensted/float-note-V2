@@ -7,11 +7,12 @@ import Notes from "./Notes";
 import AddNewNote from "./AddNewNote";
 import LoadingScreen from './LoadingScreen'
 import ErrorScreen from './ErrorScreen'
+import { NOTES_URL } from "../urls";
 
 // contexts
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNotesContext } from '../hooks/useNotesContext';
-import { newUserNotes } from "./newUserNotes";
+import { newUserNotes } from "./stringConstants";
 export const draggingContext = createContext();
 
 const Home = () => {
@@ -30,7 +31,7 @@ const Home = () => {
         const fetchNotes = async () => {
             const timer = setTimeout(() => setIsLoading(true), 350);
             try {
-                const res = await fetch('https://float-note-api.onrender.com/api/notes', {
+                const res = await fetch(NOTES_URL, {
                     headers: { 'Authorization': `Bearer ${user.token}` }
                 });
                 if (!res.ok) throw Error("There was an error retrieving your notes.")

@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
+import { USER_URL } from '../urls';
 
 export const useLogin = () => {
 
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { dispatch } = useAuthContext();
+    const { userDispatch } = useAuthContext();
 
     const login = async (email, password) => {
         setIsLoading(true);
         setError('');
 
-        const response = await fetch('https://float-note-api.onrender.com/api/user/login', {
+        const response = await fetch(`${USER_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -24,7 +25,7 @@ export const useLogin = () => {
             setError(json.error);
         } else {
             localStorage.setItem("user", JSON.stringify(json))
-            dispatch({ type: "LOGIN", payload: json });
+            userDispatch({ type: "LOGIN", payload: json });
             setIsLoading(false);
         }
     }
