@@ -5,6 +5,7 @@ import { useDeleteUser } from '../hooks/useDeleteuser';
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import Alert from './Alert';
 import { userDeleteText } from './stringConstants';
+import { deleteNotesDB } from '../api';
 
 const Account = () => {
 
@@ -20,6 +21,7 @@ const Account = () => {
         setNewEmail(user.email)
     }, [user])
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedEmail = await updateUser(user.email, newEmail, typedPassword, newPassword, newPasswordRepeat)
@@ -29,6 +31,7 @@ const Account = () => {
     }
 
     const handleDeleteUser = async () => {
+        await deleteNotesDB(user)
         await deleteUser(user._id, typedPassword);
     }
 
