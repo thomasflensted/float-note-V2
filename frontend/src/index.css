@@ -107,6 +107,10 @@ li {
   font-family: venice-blvd, sans-serif;
 }
 
+.nav-title:hover {
+  cursor: pointer;
+}
+
 .nav-item {
   color: black;
   text-decoration: none;
