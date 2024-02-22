@@ -66,7 +66,7 @@ const NoteDialog = forwardRef((props, ref) => {
     const reset = () => {
         setNewText(props.newNote ? "" : props.note.text)
         setNewHeading(props.newNote ? "" : props.note.heading)
-        setNewColor(props.newNote ? "" : props.note.color)
+        setNewColor(props.newNote ? "#FFFFFF" : props.note.color)
     }
 
 
