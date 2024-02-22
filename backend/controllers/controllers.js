@@ -77,9 +77,9 @@ const deleteNote = async (req, res) => {
 }
 
 const deleteManyNotes = async (req, res) => {
-    const { user_id } = req.body;
+    const user_id = req.user.id;
     try {
-        const result = await Note.deleteMany({ user_id: user_id });
+        const result = await Note.deleteMany({ user_id });
         res.status(200).json({ result: `Deleted ${result.deletedCount} notes` });
     } catch (err) {
         res.json({ error: err.message })

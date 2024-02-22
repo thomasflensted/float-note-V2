@@ -1,7 +1,6 @@
 const express = require('express');
-const { getNotes, getNote, postNote, deleteNote, patchNote, patchMany } = require('../controllers/controllers')
+const { getNotes, getNote, postNote, deleteNote, patchNote, patchMany, deleteManyNotes } = require('../controllers/controllers')
 const requireAuth = require('../middleware/requireAuth');
-const { deleteMany } = require('../models/UserModel');
 
 const router = express.Router();
 router.use(requireAuth);
@@ -24,6 +23,7 @@ router.patch('/', patchMany)
 // delete note
 router.delete('/:id', deleteNote)
 
-router.delete('/', deleteMany)
+// delete multiple notes
+router.delete('/', deleteManyNotes)
 
 module.exports = router; 
