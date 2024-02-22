@@ -43,7 +43,7 @@ const NavBar = ({ zIndex }) => {
                             <DropdownMenu.Portal>
                                 <DropdownMenu.Content className="DropdownMenuContent" sideOffset={20} align="end" style={{ zIndex: zIndex + 1, marginRight: "1rem" }} >
                                     <DropdownMenu.Arrow className="DropdownMenuArrow" />
-                                    <DropdownMenu.Item className="DropdownMenuItem">
+                                    <DropdownMenu.Item asChild className="DropdownMenuItem">
                                         <Link className='nav-item' to="/account">Settings</Link>
                                     </DropdownMenu.Item>
                                     <DropdownMenu.Separator className="DropdownMenuSeparator" />
