@@ -52,7 +52,7 @@ const deleteUser = async (req, res) => {
 }
 
 const getUsers = async (req, res) => {
-    res.json("Nothing to see here");
+    res.json({ mssg: "Nothing to see here" });
 }
 
 module.exports = { loginUser, signupUser, getUsers, deleteUser, updateUser }
