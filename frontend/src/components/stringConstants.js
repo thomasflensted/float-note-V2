@@ -3,19 +3,19 @@ import { v4 as uuid } from 'uuid';
 export const aboutText = [
     {
         heading: "Welcome to Float Note",
-        text: "Think of this space as your personal digital bulletin board, where you can gather as many notes as you like. Feel free to organize, stack, and style them however you prefer. Your notes are entirely draggable, and you can adjust their size by dragging any corner or side.",
+        text: "Think of this space as your personal digital bulletin board, where you can gather as many notes as you like.",
     },
     {
-        heading: "Customization",
-        text: "In the top right corner, you'll find options to customize the text, heading, and color of your note. On the top left, you can delete it, duplicate it, or reorder it among your other notes.",
+        heading: "Organization & Customization",
+        text: "Your notes are entirely draggable, and you can adjust their size by dragging any corner or side. In the top right corner, you'll find options to customize the text, heading, and color of your note. On the top left, you can delete it, duplicate it, or reorder its stacking relative to other notes.",
     },
     {
         heading: "Search",
-        text: "In the bottom of the screen, there is a search bar you can use to find a specific note if you have many.",
+        text: "In the bottom of the screen, there is a search bar that highlights any note that matches your search query.",
     },
     {
         heading: "Sign up",
-        text: "You can use the site without signing up, but in that case, your notes will only be available to you on the device and browser you're currently using. If you sign up, you can access your notes from any device, anywhere. If you want to see these tips again, just click About in the top right corner. Enjoy!"
+        text: "You can use the site without signing up, but in that case, your notes will only be available to you on the device and browser you're currently using. If you sign up, you can access your notes from any device, anywhere."
     }
 ]
 
