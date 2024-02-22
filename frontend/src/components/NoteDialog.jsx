@@ -73,7 +73,7 @@ const NoteDialog = forwardRef((props, ref) => {
         <Dialog.Portal>
             <Dialog.Overlay className='overlay' style={{ zIndex: notes.length + 2 }} />
             <Dialog.Content className='note center-note new-note-dialog' onInteractOutside={() => setDraggingDisabled(false)} style={{ zIndex: notes.length + 3 }}>
-                <div className='note-top center-note-top' style={{ backgroundColor: props.newNote ? newColor : props.note.color }} >
+                <div className='note-top center-note-top' style={{ backgroundColor: newColor }} >
                     <h2 className='note-title'>{props.newNote ? 'New Note' : 'Edit Note'}</h2>
                 </div>
                 <div className="note-text-container">
