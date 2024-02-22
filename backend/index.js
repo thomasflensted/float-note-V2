@@ -13,7 +13,7 @@ app.use(express.json());
 const corsOptions = {
     origin: CORS_URL
 };
-app.use(cors(corsOptions));
+app.use(cors());
 app.use('/api/notes', noteRoutes);
 app.use('/api/user', userRoutes);
 
