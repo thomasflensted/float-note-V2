@@ -26,6 +26,7 @@ export const useDeleteUser = () => {
 
         if (!response.ok) {
             setDeleteError(data.error);
+            return null;
         } else {
             logout();
             dispatch({ type: "SET_NOTES", payload: [] });

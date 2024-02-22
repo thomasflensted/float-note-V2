@@ -30,8 +30,8 @@ const Account = () => {
     }
 
     const handleDeleteUser = async () => {
-        await deleteNotesDB(user)
-        await deleteUser(user._id, typedPassword);
+        const result = await deleteUser(user._id, typedPassword);
+        if (result) await deleteNotesDB(user)
     }
 
     return (
