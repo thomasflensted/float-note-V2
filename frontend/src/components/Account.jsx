@@ -14,13 +14,12 @@ const Account = () => {
     const [newPassword, setNewPassword] = useState('')
     const [newPasswordRepeat, setNewPasswordRepeat] = useState('')
     const [newEmail, setNewEmail] = useState('')
-    const { updateUser, error, isLoading, success } = useUpdateUser();
+    let { updateUser, error, isLoading, success } = useUpdateUser();
     const { deleteUser, deleteError } = useDeleteUser();
 
     useEffect(() => {
         setNewEmail(user.email)
     }, [user])
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();

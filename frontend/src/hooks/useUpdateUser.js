@@ -7,6 +7,13 @@ export const useUpdateUser = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [success, setSuccess] = useState('');
 
+    const resetResponse = () => {
+        setTimeout(() => {
+            setError('')
+            setSuccess('')
+        }, 5000);
+    }
+
     const updateUser = async (email, newEmail, typedPassword, newPassword, newPasswordRepeat) => {
         setIsLoading(true);
         setError('');
@@ -14,12 +21,14 @@ export const useUpdateUser = () => {
         if (newPassword !== newPasswordRepeat) {
             setIsLoading(false);
             setError("New passwords are not matching.")
+            resetResponse()
             return null;
         }
 
         if (!newPassword && (newEmail === email || !newEmail)) {
             setIsLoading(false);
             setError("No changes to save.");
+            resetResponse()
             return null;
         }
 
@@ -34,10 +43,12 @@ export const useUpdateUser = () => {
         if (!response.ok) {
             setIsLoading(false);
             setError(data.error);
+            resetResponse()
             return;
         } else {
             setIsLoading(false);
             setSuccess(data.message);
+            resetResponse()
         }
         return data.updatedUser.email;
     }
