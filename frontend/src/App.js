@@ -39,6 +39,4 @@ function App() {
 
 export default App;
 
-// in new note dialog: change top color when selecting color
-// instead of rlog out button, dropdown on account link?
-// delete notes on user delete
+// place cursor after text in note dialog
