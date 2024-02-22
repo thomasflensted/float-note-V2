@@ -1,6 +1,7 @@
 // imports
 import { Link } from 'react-router-dom'
 import * as Dialog from '@radix-ui/react-dialog';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 // contexts and hooks
 import { useLogout } from '../hooks/useLogout'
@@ -34,8 +35,23 @@ const NavBar = ({ zIndex }) => {
                         <Dialog.Trigger asChild><li className='nav-item'>About</li></Dialog.Trigger>
                         <AboutDialog />
                     </Dialog.Root>
-                    {user && <li><Link className='nav-item' to="/account">Account</Link></li>}
-                    {user && <li className='nav-item' onClick={handleLogout}>Log Out</li>}
+                    {user &&
+                        <DropdownMenu.Root modal={false}>
+                            <DropdownMenu.Trigger asChild>
+                                <li className='nav-item'>Account</li>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Portal>
+                                <DropdownMenu.Content className="DropdownMenuContent" sideOffset={20} align="end" style={{ zIndex: zIndex + 1, marginRight: "1rem" }} >
+                                    <DropdownMenu.Arrow className="DropdownMenuArrow" />
+                                    <DropdownMenu.Item className="DropdownMenuItem">
+                                        <Link className='nav-item' to="/account">Settings</Link>
+                                    </DropdownMenu.Item>
+                                    <DropdownMenu.Separator className="DropdownMenuSeparator" />
+                                    <DropdownMenu.Item onClick={handleLogout} className="DropdownMenuItem" style={{ color: "red" }}>Log Out</DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Root>
+                    }
                     {!user && <li><Link className='nav-item' to="/login" >Log In</Link></li>}
                 </div>
             </ul>
