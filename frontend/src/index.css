@@ -59,6 +59,10 @@ li {
   background: var(--gray);
 }
 
+.white {
+  background: white;
+}
+
 /* LOADING SCREEN AND LOADING ERROR */
 .load-error {
   transform: translateX(-50%);
@@ -434,9 +438,12 @@ textarea[type=text] {
 }
 
 .ToggleGroupItem {
-  background: white;
   height: 35px;
   border: none;
+}
+
+.ToggleGroupItem:focus {
+  outline: none
 }
 
 .ToggleGroupItem:first-child {
@@ -449,9 +456,8 @@ textarea[type=text] {
   border-bottom-right-radius: 4px;
 }
 
-.ToggleGroupItem:focus,
 .ToggleGroupItem[data-state='on'] {
-  border: 1px solid black;
+  border: .5px solid black;
 }
 
 /* CROSS INSIDE COLOR SELECTOR */
