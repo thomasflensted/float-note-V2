@@ -60,6 +60,10 @@ const NoteDialog = forwardRef((props, ref) => {
 
     const handleClose = () => {
         setDraggingDisabled(false)
+        reset();
+    }
+
+    const reset = () => {
         setNewText(props.newNote ? "" : props.note.text)
         setNewHeading(props.newNote ? "" : props.note.heading)
         setNewColor(props.newNote ? "" : props.note.color)
