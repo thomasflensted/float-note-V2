@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 export const aboutText = [
     {
         heading: "Welcome to Float Note",
-        text: "Welcome to your personal digital bulletin board! Think of this space as exclusively yours, where you can gather as many notes as you like. Feel free to organize, stack, and style them however you prefer. Your notes are entirely draggable, and you can adjust their size by dragging any corner or side.",
+        text: "Think of this space as your personal digital bulletin board, where you can gather as many notes as you like. Feel free to organize, stack, and style them however you prefer. Your notes are entirely draggable, and you can adjust their size by dragging any corner or side.",
     },
     {
         heading: "Customization",
