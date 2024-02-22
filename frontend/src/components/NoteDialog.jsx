@@ -78,7 +78,7 @@ const NoteDialog = forwardRef((props, ref) => {
                     <h2 className='note-title'>{props.newNote ? 'New Note' : 'Edit Note'}</h2>
                 </div>
                 <div className="note-text-container">
-                    <form className='vertical-form'>
+                    <form className='vertical-form' onSubmit={(e) => e.preventDefault()}>
                         <DialogHeadingForm text={newHeading} setHeading={setNewHeading} />
                         <DialogTextForm text={newText} setText={setNewText} />
                         <ColorSelect color={newColor} setColor={setNewColor} />
