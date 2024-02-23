@@ -1,11 +1,14 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 const DialogTextForm = ({ text, setText }) => {
 
+    const [isFirstRender, setIsFirstRender] = useState(true);
+
     useEffect(() => {
-        const elem = document.getElementById("textarea");
-        elem.setSelectionRange(text.length, text.length)
-    }, [text])
+        const textElement = document.getElementById("textarea");
+        if (isFirstRender) textElement.setSelectionRange(text.length, text.length);
+        setIsFirstRender(false);
+    }, [text, isFirstRender])
 
     return (
         <div>
