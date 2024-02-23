@@ -24,7 +24,7 @@ const getNotes = async (req, res) => {
 
 // create new note
 const postNote = async (req, res) => {
-    const user_id = req.user.id;
+    const user_id = req.user._id;
     const { heading, text, size, position, color, zIndex } = req.body;
     try {
         const note = await Note.create({ heading, text, size, position, color, zIndex, user_id })
@@ -77,10 +77,10 @@ const deleteNote = async (req, res) => {
 }
 
 const deleteManyNotes = async (req, res) => {
-    const user_id = req.user.id;
     try {
+        const { user_id } = req.body;
         const result = await Note.deleteMany({ user_id });
-        res.status(200).json({ result: `Deleted ${result.deletedCount} notes` });
+        res.status(200).json({ response: `Deleted ${result.deletedCount} notes.` });
     } catch (err) {
         res.json({ error: err.message })
     }

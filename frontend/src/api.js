@@ -91,8 +91,10 @@ export const deleteNotesDB = async (user) => {
         const response = await fetch(NOTES_URL, {
             method: 'DELETE',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
-            }
+            },
+            body: JSON.stringify({ user_id: user._id })
         });
         if (!response) throw Error("There was an error deleting the data.");
     } catch (err) {
