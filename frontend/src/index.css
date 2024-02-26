@@ -81,6 +81,10 @@ li {
   font-weight: 600;
 }
 
+.loading-note {
+  width: 300px;
+}
+
 .loading-note-content {
   display: flex;
   flex-direction: column;

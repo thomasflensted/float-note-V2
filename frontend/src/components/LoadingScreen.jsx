@@ -3,7 +3,7 @@ ring.register()
 
 const LoadingScreen = () => {
     return (
-        <div className='note center-note'>
+        <div className='note center-note loading-note'>
             <div className="center-note-top green">
                 <h2 className='loading-note-title'>Loading...</h2>
             </div>
