@@ -27,7 +27,7 @@ const NavBar = ({ zIndex }) => {
             <ul className='navbar' style={{ zIndex: zIndex }}>
                 <li>
                     <Link className='nav-item' to="/">
-                        <h1 className='nav-title'>Float Note</h1>
+                        <h1 className='nav-title'>ProjecTiles</h1>
                     </Link>
                 </li>
                 <div className='nav-right-content'>
