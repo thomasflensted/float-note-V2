@@ -13,6 +13,7 @@ import { NOTES_URL } from "../urls";
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNotesContext } from '../hooks/useNotesContext';
 import { newUserNotes } from "./stringConstants";
+import { useLogout } from "../hooks/useLogout";
 export const draggingContext = createContext();
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
     const [draggingDisabled, setDraggingDisabled] = useState(false);
     const { user } = useAuthContext();
     const { notes, dispatch } = useNotesContext();
+    const { logout } = useLogout()
 
     // fetch data from MongoDB
     useEffect(() => {
@@ -38,6 +40,7 @@ const Home = () => {
                 const notes = await res.json();
                 dispatch({ type: "SET_NOTES", payload: notes });
             } catch (err) {
+                await logout();
                 setError("There was an error retrieving your notes.");
             } finally {
                 clearTimeout(timer);
