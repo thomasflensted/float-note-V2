@@ -40,8 +40,7 @@ const Home = () => {
                 const notes = await res.json();
                 dispatch({ type: "SET_NOTES", payload: notes });
             } catch (err) {
-                await logout();
-                setError("There was an error retrieving your notes.");
+                return await logout();
             } finally {
                 clearTimeout(timer);
                 setIsLoading(false);
